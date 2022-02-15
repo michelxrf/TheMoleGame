@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
     public CharacterController controller;
     public Transform camera;
+    public Rigidbody gravityController;
 
     public float speed = 1f;
 
@@ -17,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask monstersLayer;
     public LayerMask destructiblesLayer;
     public LayerMask undestructiblesLayer;
+    public float generateNewMapHeight = -3f;
 
     private void Start()
     {
@@ -26,8 +29,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(gravityController.isKinematic==true)
         Move();
         Strike();
+        checkFalls();
     }
     void Move()
     {
@@ -45,15 +50,17 @@ public class PlayerController : MonoBehaviour
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             controller.Move(moveDirection.normalized * speed * Time.deltaTime );
         }
-        if(Input.GetKeyDown(KeyCode.Space))
+        
+        // DEBUG for regenerating level
+        if(Input.GetKeyDown("r"))
         {
-            transform.position = new Vector3(transform.position.x, .4f, transform.position.z);
+            SceneManager.LoadScene("Play");
         }
     }
 
     void Strike()
     {
-        if(Input.GetButton("Fire1"))
+        if(Input.GetMouseButton(0))
         {
             //TODO: play animation
             
@@ -70,6 +77,22 @@ public class PlayerController : MonoBehaviour
             //TODO: don't destroy walls
         
         
+        }
+    }
+
+    void OnTriggerEnter(Collider other) {
+        if(other.gameObject.name == "LevelEnd" || other.gameObject.name == "LevelEnd(Clone)")
+        {
+            gravityController.isKinematic = false;
+        }
+    }
+
+    void checkFalls()
+    {
+        if(transform.position.y < generateNewMapHeight)
+        {
+            GameData.level++;
+            SceneManager.LoadScene("Play");
         }
     }
 }

@@ -8,23 +8,29 @@ using UnityEngine.UI;
 // 0 = floor only
 // 1 = solid wall
 // 2 = breakable wall
-// 3 = level end
+// 3 = level end (collider)
+// 4 = level end (border)
+// 5 = level entry
 //////////////////////////////////
 
-public class LevelGenerator : MonoBehaviour {
-
+public class LevelGenerator : MonoBehaviour 
+{
+	public const int MinSize1 = 3;
+	public const int MinSize2 = 10;
 	public GameObject floorPrefab;
 	public GameObject wallPrefab;
 	public GameObject breakablePrefab;
+	public GameObject levelEndPrefab;
 
-	public GameObject characterController;
+	public GameObject playerController;
 
 	public GameObject floorParent;
 	public GameObject wallsParent;
+	public GameObject usableObjectParent;
 
-	public int mazeSizeX;
-	public int mazeSizeZ;
-	public float percentageToClear;
+	private int mazeSizeX;
+	private int mazeSizeZ;
+	private float roomSizeFactor;
 
 	// 2D array representing the map
 	private int[,] mapData;
@@ -32,9 +38,14 @@ public class LevelGenerator : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
+		//define size based on level
+		
+
 
 		// initialize map 2D array
 		mapData = GenerateMazeData();
+
+		
 
 		// create actual maze blocks from maze boolean data
 		for (int z = 0; z < mazeSizeZ; z++) {
@@ -56,8 +67,20 @@ public class LevelGenerator : MonoBehaviour {
 				{ 
 					CreateChildPrefab(floorPrefab, floorParent, x, 0, z, 7);
 				}
-                // TODO: Generate all the other types of tiles
-                // elseif(isso){bota isso};
+				else if(mapData[x, z] == 5)// player spawn, has to be set before the exit collider
+				{ 
+					playerController.transform.position = new Vector3(x, .6f, z);
+					CreateChildPrefab(floorPrefab, floorParent, x, 0, z, 7);
+				}
+				else if(mapData[x, z] == 3)// level exit collider
+				{ 
+					CreateChildPrefab(breakablePrefab, wallsParent, x, 1, z, 8);
+					CreateChildPrefab(levelEndPrefab, usableObjectParent, x, 1, z, 7);
+				}
+				else if(mapData[x, z] == 4)// level exit border
+				{ 
+					CreateChildPrefab(breakablePrefab, wallsParent, x, 1, z, 8);
+				}
 
 			}
 		}
@@ -67,6 +90,11 @@ public class LevelGenerator : MonoBehaviour {
 	// actually making up the maze
 	int[,] GenerateMazeData()
 	{
+		mazeSizeX = GameData.level + MinSize1;
+		mazeSizeZ = Random.Range(GameData.level + MinSize2, Mathf.FloorToInt(GameData.level * 1.5f) + MinSize2);
+
+		roomSizeFactor = Random.Range(1.0f, 3.0f);
+
 		int[,] data = new int[mazeSizeX, mazeSizeZ];
 
 		// Generate base map
@@ -91,9 +119,9 @@ public class LevelGenerator : MonoBehaviour {
 		//they both will work the same way, but one way will be more efficient
 
 		//calculate the inner area between the outer walls
-		int innerTilesAmount = mazeSizeX * mazeSizeZ - 2 * (mazeSizeZ + mazeSizeX);
+		int innerTilesAmount = mazeSizeX * mazeSizeZ - 2 * (mazeSizeZ + mazeSizeX) + 4;
 		//calculate the amount of tiles that will be removed form the room
-		float tilesToRemove = innerTilesAmount * percentageToClear;
+		float tilesToRemove = innerTilesAmount * roomSizeFactor;
 
 		//calculate the amount of rooms are going to be made
 		int numberOfRooms = Random.Range(3, 9);
@@ -128,7 +156,7 @@ public class LevelGenerator : MonoBehaviour {
 			{
 				for(int x = startingPointX; x < startingPointX + roomDimensionX; x++)
 				{
-					if(x != 0 && x != mazeSizeX-1 && z != 0 && z != mazeSizeZ-1)
+					if(x > 0 && x < mazeSizeX - 1 && z > 0 && z < mazeSizeZ - 1)
 					{
 						data[x,z] = 0;
 					}
@@ -139,6 +167,59 @@ public class LevelGenerator : MonoBehaviour {
 				}
 			}
 		}
+
+		/////////////////////////////////
+		// Generate Exit and Entry points
+		/////////////////////////////////
+		int exitPointX = Random.Range(1, mazeSizeX - 1);
+		int exitPointZ = Random.Range(1, mazeSizeZ - 1);
+
+		for(int z = exitPointZ - 1; z <= exitPointZ + 1; z++)
+		{
+			for(int x = exitPointX - 1; x <= exitPointX + 1; x++)
+			{
+				if( z > 0 && z < mazeSizeZ - 1  && x > 0 && x < mazeSizeX - 1)
+					data[x, z] = 4;
+			}
+		}
+
+		data[exitPointX, exitPointZ] = 3;
+
+		int entryPointX, entryPointZ;
+
+		int infiniteLoopBreak = 50;
+		do
+		{
+			entryPointX = Random.Range(1, mazeSizeX - 1);
+			entryPointZ = Random.Range(1, mazeSizeZ - 1);
+			
+			infiniteLoopBreak--;
+			if(infiniteLoopBreak < 0)
+			{
+				Debug.Log("Couldn't find a entry point far enough to the exit point!");
+				break;
+			}
+			
+
+		} while ((Mathf.Abs(entryPointX - exitPointX) < mazeSizeX/3) && (Mathf.Abs(entryPointZ - exitPointZ) < mazeSizeZ/3));
+
+		// create a room at player entry point
+		int entryRoomSizeX = Random.Range(1, 5);
+		int entryRoomSizeZ = Random.Range(1, 5);
+		for(int z = entryPointZ - entryRoomSizeZ; z < entryPointZ + entryRoomSizeZ; z++)
+		{
+			for(int x = entryPointX - entryRoomSizeX; x < entryPointX + entryRoomSizeX; x++)
+			{
+				if( z > 0 && z < mazeSizeZ - 1 && x > 0 && x < mazeSizeX - 1 )
+				{
+					if(data[x,z] != 3 && data[x,z] != 4)
+						data[x, z] = 0;
+				}
+					
+			}
+		}
+
+		data[entryPointX, entryPointZ] = 5;
 
 		return data;
 	}
