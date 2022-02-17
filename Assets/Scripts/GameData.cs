@@ -6,4 +6,5 @@ public class GameData : MonoBehaviour
 {
 	public static int level = 0;
     public static int killedMonsters = 0;
+    public static float money = 0;
 }

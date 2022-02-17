@@ -72,6 +72,10 @@ public class PlayerController : MonoBehaviour
             //TODO: hurt hit enemies
             foreach (Collider breakableWall in hitWalls)
             {
+                var spawnFunction = breakableWall.transform.gameObject.GetComponent<SpawnGold>();
+                if(spawnFunction != null)
+                    spawnFunction.Hit();
+
                 Destroy(breakableWall.transform.gameObject);      
             }
             //TODO: don't destroy walls
@@ -81,9 +85,27 @@ public class PlayerController : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other) {
+        // check for level end point
         if(other.gameObject.name == "LevelEnd" || other.gameObject.name == "LevelEnd(Clone)")
         {
             gravityController.isKinematic = false;
+        }
+
+        // check for treasures
+        if(other.gameObject.name == "Silver(Clone)")
+        {
+            GameData.money += 0.2f;
+            Destroy(other.gameObject);
+        }
+        else if(other.gameObject.name == "Gold(Clone)")
+        {
+            GameData.money += 1f;
+            Destroy(other.gameObject);
+        }
+        else if(other.gameObject.name == "Emerald(Clone)")
+        {
+            GameData.money += 5f;
+            Destroy(other.gameObject);
         }
     }
 

@@ -8,9 +8,14 @@ using UnityEngine.UI;
 // 0 = floor only
 // 1 = solid wall
 // 2 = breakable wall
+//
 // 3 = level end (collider)
 // 4 = level end (border)
 // 5 = level entry
+//
+// 6 = silver block
+// 7 = gold block
+// 8 = emerald block
 //////////////////////////////////
 
 public class LevelGenerator : MonoBehaviour 
@@ -21,6 +26,7 @@ public class LevelGenerator : MonoBehaviour
 	public GameObject wallPrefab;
 	public GameObject breakablePrefab;
 	public GameObject levelEndPrefab;
+	public GameObject[] treasureWall;
 
 	public GameObject playerController;
 
@@ -39,18 +45,16 @@ public class LevelGenerator : MonoBehaviour
 	void Start ()
 	{
 		//define size based on level
-		
-
-
 		// initialize map 2D array
 		mapData = GenerateMazeData();
 
-		
-
 		// create actual maze blocks from maze boolean data
-		for (int z = 0; z < mazeSizeZ; z++) {
-			for (int x = 0; x < mazeSizeX; x++) {
-				if (mapData[x, z] == 1) { // solid walls
+		for (int z = 0; z < mazeSizeZ; z++) 
+		{
+			for (int x = 0; x < mazeSizeX; x++) 
+			{
+				if (mapData[x, z] == 1) // solid walls
+				{ 
 					CreateChildPrefab(wallPrefab, wallsParent, x, 1, z, 7);
 
 					// create floor below walls
@@ -59,6 +63,13 @@ public class LevelGenerator : MonoBehaviour
 				else if(mapData[x, z] == 2) //breakable block
 				{ 
 					CreateChildPrefab(breakablePrefab, wallsParent, x, 1, z, 8);
+
+					// create floor below walls
+					CreateChildPrefab(floorPrefab, floorParent, x, 0, z, 7);
+				}
+				else if(mapData[x, z] >= 6 && mapData[x, z] <= 8) //treasure block
+				{ 
+					CreateChildPrefab(treasureWall[mapData[x, z] - 6], wallsParent, x, 1, z, 8);
 
 					// create floor below walls
 					CreateChildPrefab(floorPrefab, floorParent, x, 0, z, 7);
@@ -90,6 +101,12 @@ public class LevelGenerator : MonoBehaviour
 	// actually making up the maze
 	int[,] GenerateMazeData()
 	{
+		float treasureChance = Mathf.Max(0f, 0.25f * GameData.level + 7.5f);
+		float silverChance = Mathf.Max(0f, -1.38f * GameData.level + 101.38f);
+		float goldChance = Mathf.Max(0f, 2.5f * GameData.level - 25f);
+		float emeraldChance = Mathf.Max(0f, GameData.level - 20f);
+		float summedChances = silverChance + goldChance + emeraldChance;
+
 		mazeSizeX = GameData.level + MinSize1;
 		mazeSizeZ = Random.Range(GameData.level + MinSize2, Mathf.FloorToInt(GameData.level * 1.5f) + MinSize2);
 
@@ -108,7 +125,32 @@ public class LevelGenerator : MonoBehaviour
                 }
                 else
                 {
-                    data[x,z] = 2;
+					// Generate a random treasure block or not, based on chances
+					if(Random.Range(0f, 100f) < treasureChance)
+					{
+						float randiValue = Random.Range(0f, summedChances);
+						// Treasure block
+						if(randiValue < silverChance)
+						{
+							//silver block
+							data[x,z] = 6;
+						}
+						else if(randiValue < silverChance + goldChance)
+						{
+							//gold block
+							data[x,z] = 7;
+						}
+						else
+						{
+							//emerald block
+							data[x,z] = 8;
+						}
+					}
+					else
+					{
+						// Dirt
+						data[x,z] = 2;
+					}
                 }
             }
         }
