@@ -9,7 +9,7 @@ public class UpdateUI : MonoBehaviour
     public Text money;
     
     // Start is called before the first frame update
-    void Start()
+    void Update()
     {
        UpdateValues(); 
     }

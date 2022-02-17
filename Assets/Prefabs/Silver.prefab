@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 5271000446750227717}
   - component: {fileID: 7981132475531790799}
   - component: {fileID: 3564969157383759829}
-  - component: {fileID: 3462863614866668443}
+  - component: {fileID: 806280282913807893}
+  - component: {fileID: 3470008920491012670}
   m_Layer: 0
   m_Name: Silver
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8485434547688155162}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 1.7917234, y: 0.5512975, z: 1.4995365}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
@@ -100,8 +101,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!136 &3462863614866668443
-CapsuleCollider:
+--- !u!114 &806280282913807893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8485434547688155162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3a3732f5de18dd48b8ae587c6c0ba25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  value: 0.2
+--- !u!135 &3470008920491012670
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -110,7 +124,6 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
+  serializedVersion: 2
   m_Radius: 0.0008938244
-  m_Height: 0.001787648
-  m_Direction: 1
   m_Center: {x: -2.6193447e-10, y: -2.9103825e-10, z: 0}

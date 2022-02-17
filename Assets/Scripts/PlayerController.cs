@@ -65,7 +65,6 @@ public class PlayerController : MonoBehaviour
             //TODO: play animation
             
             //TODO: detect enemies
-            //TODO: detect destructibles
             Collider[] hitWalls = Physics.OverlapSphere(attackPoint.position, attackRange, destructiblesLayer);
             //TODO: detect undestructibles
 
@@ -78,7 +77,7 @@ public class PlayerController : MonoBehaviour
 
                 Destroy(breakableWall.transform.gameObject);      
             }
-            //TODO: don't destroy walls
+            //TODO: react to unbreakable walls
         
         
         }
@@ -89,7 +88,7 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.name == "LevelEnd" || other.gameObject.name == "LevelEnd(Clone)")
         {
             gravityController.isKinematic = false;
-        }
+        } 
 
         // check for treasures
         if(other.gameObject.name == "Silver(Clone)")

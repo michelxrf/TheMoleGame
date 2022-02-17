@@ -80,7 +80,7 @@ public class LevelGenerator : MonoBehaviour
 				}
 				else if(mapData[x, z] == 5)// player spawn, has to be set before the exit collider
 				{ 
-					playerController.transform.position = new Vector3(x, .6f, z);
+					playerController.transform.position = new Vector3(x, .5f, z);
 					CreateChildPrefab(floorPrefab, floorParent, x, 0, z, 7);
 				}
 				else if(mapData[x, z] == 3)// level exit collider

@@ -15,7 +15,7 @@ public class SpawnGold : MonoBehaviour
     // Update is called once per frame
     public void Hit() 
     {
-        int quantity = Random.Range(0, 5);
+        int quantity = Random.Range(1, 5);
         for(int i = 0; i < quantity; i++)
         {
             float randomOffsetX = Random.Range(-.4f, .4f);
