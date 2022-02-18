@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2990685620429758648}
   - component: {fileID: 6550281128185463876}
   - component: {fileID: 2341344399721424598}
+  - component: {fileID: 2063541352964187263}
   m_Layer: 0
   m_Name: Emerald
   m_TagString: Untagged
@@ -93,8 +94,8 @@ Rigidbody:
   m_GameObject: {fileID: 3639454723431072109}
   serializedVersion: 2
   m_Mass: 0.25
-  m_Drag: 1
-  m_AngularDrag: 1
+  m_Drag: 0.5
+  m_AngularDrag: 0.5
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -113,3 +114,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.000791881, y: 0.0012531541, z: 0.00018800443}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2063541352964187263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3639454723431072109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3a3732f5de18dd48b8ae587c6c0ba25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  value: 5

@@ -89,23 +89,6 @@ public class PlayerController : MonoBehaviour
         {
             gravityController.isKinematic = false;
         } 
-
-        // check for treasures
-        if(other.gameObject.name == "Silver(Clone)")
-        {
-            GameData.money += 0.2f;
-            Destroy(other.gameObject);
-        }
-        else if(other.gameObject.name == "Gold(Clone)")
-        {
-            GameData.money += 1f;
-            Destroy(other.gameObject);
-        }
-        else if(other.gameObject.name == "Emerald(Clone)")
-        {
-            GameData.money += 5f;
-            Destroy(other.gameObject);
-        }
     }
 
     void checkFalls()

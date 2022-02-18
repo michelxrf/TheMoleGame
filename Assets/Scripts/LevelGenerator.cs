@@ -107,8 +107,8 @@ public class LevelGenerator : MonoBehaviour
 		float emeraldChance = Mathf.Max(0f, GameData.level - 20f);
 		float summedChances = silverChance + goldChance + emeraldChance;
 
-		mazeSizeX = GameData.level + MinSize1;
-		mazeSizeZ = Random.Range(GameData.level + MinSize2, Mathf.FloorToInt(GameData.level * 1.5f) + MinSize2);
+		mazeSizeX = Mathf.Min(GameData.level + MinSize1, 30);
+		mazeSizeZ = Mathf.Min(Random.Range(GameData.level + MinSize2, Mathf.FloorToInt(GameData.level * 1.5f) + MinSize2), 50);
 
 		roomSizeFactor = Random.Range(1.0f, 3.0f);
 
@@ -213,9 +213,47 @@ public class LevelGenerator : MonoBehaviour
 		/////////////////////////////////
 		// Generate Exit and Entry points
 		/////////////////////////////////
-		int exitPointX = Random.Range(1, mazeSizeX - 1);
-		int exitPointZ = Random.Range(1, mazeSizeZ - 1);
+		int entryPointX, entryPointZ, exitPointX, exitPointZ;
+		
+		float entryExitDistance;
+		float fullMapDistance = Mathf.Sqrt(Mathf.Pow(mazeSizeX - 2, 2f) + Mathf.Pow(mazeSizeZ - 2, 2f));
+		
+		int badExitPointBreak;
+		int infiniteLoopBreak = 25;
+		do
+		{
+			badExitPointBreak = 25;
 
+			exitPointX = Random.Range(1, mazeSizeX - 1);
+			exitPointZ = Random.Range(1, mazeSizeZ - 1);
+			// randomly pick a random entry point and check if it's valid
+			do
+			{
+				entryPointX = Random.Range(1, mazeSizeX - 1);
+				entryPointZ = Random.Range(1, mazeSizeZ - 1);
+
+				entryExitDistance = Mathf.Sqrt( Mathf.Pow(exitPointX - entryPointX, 2f) + Mathf.Pow(exitPointZ - entryPointZ, 2f));
+
+				badExitPointBreak--;
+				if(badExitPointBreak < 0)
+				{
+					Debug.Log("Bad exit point, replacing it.");
+					break;
+				}
+			} while (entryExitDistance < fullMapDistance * .3f || (Mathf.Abs(entryPointX - exitPointX) < 2 && Mathf.Abs(entryPointZ - exitPointZ) < 2));
+		
+			infiniteLoopBreak--;
+			if(infiniteLoopBreak < 0)
+			{
+				//TODO: turn this into a throw exception
+				Debug.Log("Infinite loop while generating level.");
+				Debug.Log("fullMapDistance: " + fullMapDistance + ", entryExitDistance: " + entryExitDistance + " dX: " + Mathf.Abs(entryPointX - exitPointX) + " dZ: " + Mathf.Abs(entryPointZ - exitPointZ));
+				break;
+			}
+
+		} while(badExitPointBreak < 0);
+
+		// generate exit border
 		for(int z = exitPointZ - 1; z <= exitPointZ + 1; z++)
 		{
 			for(int x = exitPointX - 1; x <= exitPointX + 1; x++)
@@ -224,26 +262,7 @@ public class LevelGenerator : MonoBehaviour
 					data[x, z] = 4;
 			}
 		}
-
 		data[exitPointX, exitPointZ] = 3;
-
-		int entryPointX, entryPointZ;
-
-		int infiniteLoopBreak = 50;
-		do
-		{
-			entryPointX = Random.Range(1, mazeSizeX - 1);
-			entryPointZ = Random.Range(1, mazeSizeZ - 1);
-			
-			infiniteLoopBreak--;
-			if(infiniteLoopBreak < 0)
-			{
-				Debug.Log("Couldn't find a entry point far enough to the exit point!");
-				break;
-			}
-			
-
-		} while ((Mathf.Abs(entryPointX - exitPointX) < mazeSizeX/3) && (Mathf.Abs(entryPointZ - exitPointZ) < mazeSizeZ/3));
 
 		// create a room at player entry point
 		int entryRoomSizeX = Random.Range(1, 5);
