@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.AI.Navigation;
 
 //////////////////////////////////
 // MapData dictionary
@@ -20,19 +21,25 @@ using UnityEngine.UI;
 
 public class LevelGenerator : MonoBehaviour 
 {
+	public NavMeshSurface navMesh;
+
 	public const int MinSize1 = 3;
 	public const int MinSize2 = 10;
+
 	public GameObject floorPrefab;
 	public GameObject wallPrefab;
 	public GameObject breakablePrefab;
 	public GameObject levelEndPrefab;
+
 	public GameObject[] treasureWall;
+	public GameObject[] monsterSpawner;
 
 	public GameObject playerController;
 
 	public GameObject floorParent;
 	public GameObject wallsParent;
 	public GameObject usableObjectParent;
+	public GameObject spawnerParent;
 
 	private int mazeSizeX;
 	private int mazeSizeZ;
@@ -55,46 +62,50 @@ public class LevelGenerator : MonoBehaviour
 			{
 				if (mapData[x, z] == 1) // solid walls
 				{ 
-					CreateChildPrefab(wallPrefab, wallsParent, x, 1, z, 7);
+					CreateChildPrefab(wallPrefab, wallsParent, x, 1, z);
 
 					// create floor below walls
-					CreateChildPrefab(floorPrefab, floorParent, x, 0, z, 7);
+					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
 				} 
 				else if(mapData[x, z] == 2) //breakable block
 				{ 
-					CreateChildPrefab(breakablePrefab, wallsParent, x, 1, z, 8);
+					CreateChildPrefab(breakablePrefab, wallsParent, x, 1, z);
 
 					// create floor below walls
-					CreateChildPrefab(floorPrefab, floorParent, x, 0, z, 7);
+					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
 				}
 				else if(mapData[x, z] >= 6 && mapData[x, z] <= 8) //treasure block
 				{ 
-					CreateChildPrefab(treasureWall[mapData[x, z] - 6], wallsParent, x, 1, z, 8);
+					CreateChildPrefab(treasureWall[mapData[x, z] - 6], wallsParent, x, 1, z);
 
 					// create floor below walls
-					CreateChildPrefab(floorPrefab, floorParent, x, 0, z, 7);
+					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
 				}
                 else if(mapData[x, z] == 0)// floor only
 				{ 
-					CreateChildPrefab(floorPrefab, floorParent, x, 0, z, 7);
+					CreateChildPrefab(monsterSpawner[0], spawnerParent, x, 1, z);
+					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
 				}
 				else if(mapData[x, z] == 5)// player spawn, has to be set before the exit collider
 				{ 
 					playerController.transform.position = new Vector3(x, .5f, z);
-					CreateChildPrefab(floorPrefab, floorParent, x, 0, z, 7);
+					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
 				}
 				else if(mapData[x, z] == 3)// level exit collider
 				{ 
-					CreateChildPrefab(breakablePrefab, wallsParent, x, 1, z, 8);
-					CreateChildPrefab(levelEndPrefab, usableObjectParent, x, 1, z, 7);
+					CreateChildPrefab(breakablePrefab, wallsParent, x, 1, z);
+					CreateChildPrefab(levelEndPrefab, usableObjectParent, x, 1, z);
 				}
 				else if(mapData[x, z] == 4)// level exit border
 				{ 
-					CreateChildPrefab(breakablePrefab, wallsParent, x, 1, z, 8);
+					CreateChildPrefab(breakablePrefab, wallsParent, x, 1, z);
 				}
 
 			}
 		}
+
+		// Generate NavMesh
+		navMesh.BuildNavMesh();
 	}
 
 	// generates the booleans determining the maze, which will be used to construct the cubes
@@ -288,10 +299,9 @@ public class LevelGenerator : MonoBehaviour
 	// allow us to instantiate something and immediately make it the child of this game object's
 	// transform, so we can containerize everything. also allows us to avoid writing Quaternion.
 	// identity all over the place, since we never spawn anything with rotation
-	void CreateChildPrefab(GameObject prefab, GameObject parent, int x, int y, int z, int objectLayer)
+	void CreateChildPrefab(GameObject prefab, GameObject parent, int x, int y, int z)
 	{
 		var myPrefab = Instantiate(prefab, new Vector3(x, y, z), Quaternion.identity);
-		myPrefab.layer = objectLayer;
 		myPrefab.transform.parent = parent.transform;
 	}
 }

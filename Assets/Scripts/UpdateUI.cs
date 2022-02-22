@@ -7,6 +7,7 @@ public class UpdateUI : MonoBehaviour
 {
     public Text level;
     public Text money;
+    public Text health;
     
     // Start is called before the first frame update
     void Update()
@@ -18,5 +19,6 @@ public class UpdateUI : MonoBehaviour
     {
         level.text = "Level: " + GameData.level.ToString();
         money.text = "Money: " + GameData.money.ToString("F2");
+        health.text = "Health: " + GameData.health.ToString();
     }
 }

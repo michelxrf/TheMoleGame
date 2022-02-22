@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8679565278071759499}
   - component: {fileID: 6869505665677068370}
   - component: {fileID: 6993646864520664596}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EmeraldWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}

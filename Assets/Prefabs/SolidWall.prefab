@@ -14,12 +14,12 @@ GameObject:
   - component: {fileID: 3218495390914853798}
   - component: {fileID: 9110652901390464151}
   - component: {fileID: 3864846156285373072}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SolidWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2385996497599264734
 Transform:

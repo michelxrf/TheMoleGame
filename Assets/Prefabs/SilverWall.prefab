@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8962179319803576902}
   - component: {fileID: 7500305857316572605}
   - component: {fileID: 2326677054927445641}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SilverWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}

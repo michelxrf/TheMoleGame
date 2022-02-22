@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1375857082012344094}
   - component: {fileID: 3626164068863765043}
   - component: {fileID: 7580109000467791704}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GoldWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}

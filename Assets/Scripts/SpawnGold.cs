@@ -23,7 +23,6 @@ public class SpawnGold : MonoBehaviour
             float randomOffsetZ = Random.Range(-.4f, .4f);
 
             var myPrefab = Instantiate(spawnThis, new Vector3(transform.position.x + randomOffsetX, transform.position.y + randomOffsetY, transform.position.z + randomOffsetZ), Quaternion.identity);
-		    myPrefab.layer = 3;
 
             myPrefab.GetComponent<Rigidbody>().AddForce(new Vector3(20*randomOffsetX, 20*randomOffsetY, 20*randomOffsetZ));
         }
