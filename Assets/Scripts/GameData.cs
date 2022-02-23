@@ -11,4 +11,5 @@ public class GameData : MonoBehaviour
     public static int maxHealth = 3;
     public static int monsterPopulation = 0;
     public static int monsterPopulationMax = 0;
+    public static float spawnTimer = 0;
 }

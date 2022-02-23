@@ -14,7 +14,7 @@ public class MonsterSpawner : MonoBehaviour
         m_Renderer = GetComponent<Renderer>();
     }
 
-    public bool Spawn()
+    public bool SpawnIfHidden()
     {
         if(!m_Renderer.isVisible)
         {
@@ -25,5 +25,10 @@ public class MonsterSpawner : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public void ForcedSpawn()
+    {
+        var newMonster = Instantiate(monster, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
     }
 }

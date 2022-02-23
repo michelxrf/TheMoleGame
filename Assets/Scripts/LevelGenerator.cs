@@ -17,6 +17,8 @@ using Unity.AI.Navigation;
 // 6 = silver block
 // 7 = gold block
 // 8 = emerald block
+//
+// 9 = monster spawner
 //////////////////////////////////
 
 public class LevelGenerator : MonoBehaviour 
@@ -83,7 +85,6 @@ public class LevelGenerator : MonoBehaviour
 				}
                 else if(mapData[x, z] == 0)// floor only
 				{ 
-					CreateChildPrefab(monsterSpawner[0], spawnerParent, x, 1, z);
 					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
 				}
 				else if(mapData[x, z] == 5)// player spawn, has to be set before the exit collider
@@ -100,12 +101,18 @@ public class LevelGenerator : MonoBehaviour
 				{ 
 					CreateChildPrefab(breakablePrefab, wallsParent, x, 1, z);
 				}
+				else if(mapData[x, z] == 9)// monster spawner
+				{ 
+					CreateChildPrefab(monsterSpawner[0], spawnerParent, x, 1, z);
+					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+				}
 
 			}
 		}
 
 		// Generate NavMesh
 		navMesh.BuildNavMesh();
+		spawnerParent.GetComponent<SpawnTimer>().PopulateMap(playerController.transform);
 	}
 
 	// generates the booleans determining the maze, which will be used to construct the cubes
@@ -202,8 +209,8 @@ public class LevelGenerator : MonoBehaviour
 			int roomDimensionX = Mathf.FloorToInt(rootedDimensions * roomFormatFactor);
 			int roomDimensionZ = Mathf.FloorToInt(rootedDimensions * (1 - roomFormatFactor));
 
-			int startingPointX = Random.Range(1, mazeSizeX - roomDimensionX);
-			int startingPointZ = Random.Range(1, mazeSizeZ - roomDimensionZ);
+			int startingPointX = Random.Range(1, mazeSizeX - 1 - roomDimensionX);
+			int startingPointZ = Random.Range(1, mazeSizeZ - 1 - roomDimensionZ);
 
 			for(int z = startingPointZ; z < startingPointZ + roomDimensionZ; z++)
 			{
@@ -218,6 +225,28 @@ public class LevelGenerator : MonoBehaviour
 						Debug.Log("Room is too big!");
 					}
 				}
+			}
+
+			/////////////////////////////////
+			// Generate Monster Spawners
+			/////////////////////////////////
+
+			//calculates the room center and place the monster spawner at a correct location
+			int centerPointX = Mathf.FloorToInt((startingPointX + roomDimensionX/2));
+			int centerPointZ = Mathf.FloorToInt((startingPointZ + roomDimensionZ/2));
+
+			bool roomHasCenter;
+
+			// if room center is a valid point, place the spawner there
+			if(centerPointX > 0 && centerPointX < mazeSizeX - 1 && centerPointZ > 0 && centerPointZ < mazeSizeZ - 1)
+			{
+				data[centerPointX,centerPointZ] = 9;
+			}
+
+			// if not, put the spawner at the corner
+			else
+			{
+				data[startingPointX, startingPointZ] = 9;
 			}
 		}
 
