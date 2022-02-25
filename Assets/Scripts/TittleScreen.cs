@@ -2,22 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TittleScreen : MonoBehaviour
 {
+    public Text currentLevel;
+    public Text highestLevel;
+
+    private void Start()
+    {
+        if(!SaveSystem.LoadGame())
+        {
+            GameData.level = 0;
+            GameData.highestLevel = 0;
+        }
+
+        currentLevel.text = "current level: " + GameData.level.ToString();
+        highestLevel.text = "highest level: " + GameData.highestLevel.ToString();
+    }
     public void Resume()
     {
-        //TODO: load game
+        SceneManager.LoadScene("Play");
     }
 
     public void NewGame()
     {
+        GameData.level = 0;
         SceneManager.LoadScene("Play");
     }
 
     public void Quit()
     {
-        // TODO: save game or put the save system call at OnApplicationQuit()
         Application.Quit();
         Debug.Log("I quit!");
     }

@@ -96,6 +96,12 @@ public class PlayerController : MonoBehaviour
         if(transform.position.y < generateNewMapHeight)
         {
             GameData.level++;
+
+            if(GameData.level > GameData.highestLevel)
+            GameData.highestLevel = GameData.level;
+
+            SaveSystem.SaveGame();
+
             SceneManager.LoadScene("Play");
         }
     }
