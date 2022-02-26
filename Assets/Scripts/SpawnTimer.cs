@@ -17,7 +17,7 @@ public class SpawnTimer : MonoBehaviour
         timerTimeRemaining = timerSet;
 
         mapLevel = GameData.level;
-        monsterTickets = Random.Range(1, Mathf.FloorToInt(mapLevel/5));
+        monsterTickets = Random.Range(Mathf.FloorToInt(mapLevel/10), Mathf.FloorToInt(mapLevel/5));
         Debug.Log("map tickets: " + monsterTickets);
     }
 

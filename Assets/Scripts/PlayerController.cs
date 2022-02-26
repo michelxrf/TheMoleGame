@@ -29,9 +29,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(gravityController.isKinematic==true)
-        Move();
-        Strike();
+        if(gravityController.isKinematic == true && GameData.gameIsPaused == false)
+        {
+            Move();
+            Strike();
+        }
         checkFalls();
     }
     void Move()

@@ -14,6 +14,8 @@ public class GameData : MonoBehaviour
     public static int health = 3;
     public static int maxHealth = 3;
 
+    public static bool gameIsPaused = false;
+
     // DEBUG
     public static float spawnTimer = 0;
 }

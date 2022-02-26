@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
-    public static bool gameIsPaused = false;
-
     public Canvas pauseMenuUI;
+    public Button resumeButton;
+    public Button quitButton;
 
     private void Start()
     {
@@ -18,7 +20,7 @@ public class PauseMenu : MonoBehaviour
     {
         if(Input.GetButtonDown("Cancel"))
         {
-            if(gameIsPaused)
+            if(GameData.gameIsPaused)
             {
                 Resume();
             }
@@ -31,22 +33,24 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
+        Cursor.visible = false;
         pauseMenuUI.enabled = false;
         Time.timeScale = 1f;
-        gameIsPaused = false;
+        GameData.gameIsPaused = false;
     }
 
     public void Pause()
     {
+        Cursor.visible = true;
         pauseMenuUI.enabled = true;
         Time.timeScale = 0f;
-        gameIsPaused = true;
+        GameData.gameIsPaused = true;
+        resumeButton.Select();
     }
 
     public void Quit()
     {
-        // TODO: save game or put the save system call at OnApplicationQuit()
-        Application.Quit();
-        Debug.Log("I quit!");
+        Resume();
+        SceneManager.LoadScene("Title Screen");
     }
 }

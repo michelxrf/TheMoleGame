@@ -33,8 +33,8 @@ public class LevelGenerator : MonoBehaviour
 	public GameObject breakablePrefab;
 	public GameObject levelEndPrefab;
 
-	public GameObject[] treasureWall;
-	public GameObject[] monsterSpawner;
+	public GameObject[] treasureWallPrefabs;
+	public GameObject[] monsterSpawnerPrefabs;
 
 	public GameObject playerController;
 
@@ -78,7 +78,7 @@ public class LevelGenerator : MonoBehaviour
 				}
 				else if(mapData[x, z] >= 6 && mapData[x, z] <= 8) //treasure block
 				{ 
-					CreateChildPrefab(treasureWall[mapData[x, z] - 6], wallsParent, x, 1, z);
+					CreateChildPrefab(treasureWallPrefabs[mapData[x, z] - 6], wallsParent, x, 1, z);
 
 					// create floor below walls
 					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
@@ -103,7 +103,7 @@ public class LevelGenerator : MonoBehaviour
 				}
 				else if(mapData[x, z] == 9)// monster spawner
 				{ 
-					CreateChildPrefab(monsterSpawner[0], spawnerParent, x, 1, z);
+					CreateChildPrefab(monsterSpawnerPrefabs[0], spawnerParent, x, 1, z);
 					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
 				}
 
@@ -209,8 +209,8 @@ public class LevelGenerator : MonoBehaviour
 			int roomDimensionX = Mathf.FloorToInt(rootedDimensions * roomFormatFactor);
 			int roomDimensionZ = Mathf.FloorToInt(rootedDimensions * (1 - roomFormatFactor));
 
-			int startingPointX = Random.Range(1, mazeSizeX - 1 - roomDimensionX);
-			int startingPointZ = Random.Range(1, mazeSizeZ - 1 - roomDimensionZ);
+			int startingPointX = (mazeSizeX - 1 > roomDimensionX) ? startingPointX = Random.Range(1, mazeSizeX - 1 - roomDimensionX) : startingPointX = Random.Range(1, mazeSizeX - 1);
+			int startingPointZ = (mazeSizeZ - 1 > roomDimensionZ) ? startingPointZ = Random.Range(1, mazeSizeZ - 1 - roomDimensionZ) : startingPointZ = Random.Range(1, mazeSizeZ - 1);
 
 			for(int z = startingPointZ; z < startingPointZ + roomDimensionZ; z++)
 			{
@@ -285,9 +285,7 @@ public class LevelGenerator : MonoBehaviour
 			infiniteLoopBreak--;
 			if(infiniteLoopBreak < 0)
 			{
-				//TODO: turn this into a throw exception
-				Debug.Log("Infinite loop while generating level.");
-				Debug.Log("fullMapDistance: " + fullMapDistance + ", entryExitDistance: " + entryExitDistance + " dX: " + Mathf.Abs(entryPointX - exitPointX) + " dZ: " + Mathf.Abs(entryPointZ - exitPointZ));
+				Debug.LogError("Infinite loop while generating level!" + "fullMapDistance: " + fullMapDistance + ", entryExitDistance: " + entryExitDistance + " dX: " + Mathf.Abs(entryPointX - exitPointX) + " dZ: " + Mathf.Abs(entryPointZ - exitPointZ));
 				break;
 			}
 

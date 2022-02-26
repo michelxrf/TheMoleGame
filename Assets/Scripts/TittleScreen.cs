@@ -8,13 +8,18 @@ public class TittleScreen : MonoBehaviour
 {
     public Text currentLevel;
     public Text highestLevel;
+    public GameObject resumeButton;
+    public GameObject newGameButton;
 
     private void Start()
     {
+        Cursor.visible = true;
+        resumeButton.GetComponent<Button>().Select();
+
         if(!SaveSystem.LoadGame())
         {
-            GameData.level = 0;
-            GameData.highestLevel = 0;
+            resumeButton.SetActive(false);
+            newGameButton.GetComponent<Button>().Select();
         }
 
         currentLevel.text = "current level: " + GameData.level.ToString();
