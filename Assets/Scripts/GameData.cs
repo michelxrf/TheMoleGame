@@ -9,7 +9,9 @@ public class GameData : MonoBehaviour
 
     public static int killedMonsters = 0;
     
-    public static float money = 0;
+    public static int silver = 0;
+    public static int gold = 0;
+    public static int emerald = 0;
 
     public static int health = 3;
     public static int maxHealth = 3;

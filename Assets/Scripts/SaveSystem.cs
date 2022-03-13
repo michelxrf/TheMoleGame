@@ -11,7 +11,9 @@ public static class SaveSystem
         // variables getting stored //
         saveFile.highestLevel = GameData.highestLevel;
         saveFile.lastLevel = GameData.level;
-        saveFile.money = GameData.money;
+        saveFile.silver = GameData.silver;
+        saveFile.gold = GameData.gold;
+        saveFile.emerald = GameData.emerald;
         //////////////////////////////
 
         BinaryFormatter formatter = new BinaryFormatter();
@@ -38,7 +40,9 @@ public static class SaveSystem
             // variables getting recovered //
             GameData.level = saveFile.lastLevel;
             GameData.highestLevel = saveFile.highestLevel;
-            GameData.money = saveFile.money;
+            GameData.silver = saveFile.silver;
+            saveFile.gold = GameData.gold;
+            saveFile.emerald = GameData.emerald;
             /////////////////////////////////
 
             return true;

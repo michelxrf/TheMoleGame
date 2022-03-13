@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1375857082012344094}
   - component: {fileID: 3626164068863765043}
   - component: {fileID: 7580109000467791704}
+  - component: {fileID: -2501206559495948379}
   m_Layer: 8
   m_Name: GoldWall
   m_TagString: Untagged
@@ -355,3 +356,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnThis: {fileID: 2518345707259515830, guid: f5deddec4c087164d9e3f8b7be57e8cb, type: 3}
+--- !u!208 &-2501206559495948379
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5713542603177713608}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

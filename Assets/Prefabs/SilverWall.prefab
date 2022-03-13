@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8962179319803576902}
   - component: {fileID: 7500305857316572605}
   - component: {fileID: 2326677054927445641}
+  - component: {fileID: 5390301381580172860}
   m_Layer: 8
   m_Name: SilverWall
   m_TagString: Untagged
@@ -355,3 +356,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnThis: {fileID: 8485434547688155162, guid: d26fb6eac8e664a45963132d17b7f707, type: 3}
+--- !u!208 &5390301381580172860
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8985098536960562817}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

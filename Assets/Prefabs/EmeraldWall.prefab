@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8679565278071759499}
   - component: {fileID: 6869505665677068370}
   - component: {fileID: 6993646864520664596}
+  - component: {fileID: 366019084581785886}
   m_Layer: 8
   m_Name: EmeraldWall
   m_TagString: Untagged
@@ -355,3 +356,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnThis: {fileID: 3639454723431072109, guid: a3cccfe14a316da45a1576010bb00639, type: 3}
+--- !u!208 &366019084581785886
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663836145291845496}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

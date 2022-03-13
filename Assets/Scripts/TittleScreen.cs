@@ -13,6 +13,7 @@ public class TittleScreen : MonoBehaviour
 
     private void Start()
     {
+         Application.targetFrameRate = 300;
         Cursor.visible = true;
         resumeButton.GetComponent<Button>().Select();
 
@@ -32,7 +33,12 @@ public class TittleScreen : MonoBehaviour
 
     public void NewGame()
     {
-        GameData.level = 0;
+        GameData.level = 1;
+        GameData.silver = 0;
+        GameData.gold = 0;
+        GameData.emerald = 0;
+        SaveSystem.SaveGame();
+        
         SceneManager.LoadScene("Play");
     }
 

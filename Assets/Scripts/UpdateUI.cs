@@ -6,7 +6,9 @@ using UnityEngine.UI;
 public class UpdateUI : MonoBehaviour
 {
     public Text level;
-    public Text money;
+    public Text silver;
+    public Text gold;
+    public Text emerald;
     public Text health;
     public Text timer;
     
@@ -19,8 +21,10 @@ public class UpdateUI : MonoBehaviour
     public void UpdateValues()
     {
         level.text = "Level: " + GameData.level.ToString();
-        money.text = "Money: " + GameData.money.ToString("F2");
         health.text = "Health: " + GameData.health.ToString() + "/" + GameData.maxHealth.ToString();
+        silver.text = "Silver: " + GameData.silver.ToString();
+        gold.text = "Gold: " + GameData.gold.ToString();
+        emerald.text = "Emerald: " + GameData.emerald.ToString();
         timer.text = GameData.spawnTimer.ToString("F2");
     }
 }

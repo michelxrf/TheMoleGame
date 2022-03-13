@@ -9,5 +9,7 @@ public class GameFile
 {
     public int highestLevel;
     public int lastLevel;
-    public float money;
+    public int silver;
+    public int gold;
+    public int emerald;
 }
