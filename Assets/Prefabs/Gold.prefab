@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2168198628167517865}
   - component: {fileID: 4175411228073194083}
   - component: {fileID: 3329180206146727973}
-  - component: {fileID: 7471014676894788599}
   - component: {fileID: -6165582306823903961}
+  - component: {fileID: 3254138024826550114}
   m_Layer: 3
   m_Name: Gold
   m_TagString: Pickup
@@ -28,9 +28,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2518345707259515830}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalScale: {x: 75, y: 75, z: 75}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2518345707259515830}
-  m_Mesh: {fileID: 4711208715938537054, guid: e1a55eb5c5b75d646b50cb95ecca055b, type: 3}
+  m_Mesh: {fileID: -7396751871291215760, guid: e1a55eb5c5b75d646b50cb95ecca055b, type: 3}
 --- !u!23 &4175411228073194083
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6478536213147159724, guid: e1a55eb5c5b75d646b50cb95ecca055b, type: 3}
+  - {fileID: -8863482124825134610, guid: e1a55eb5c5b75d646b50cb95ecca055b, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -101,19 +101,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &7471014676894788599
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2518345707259515830}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.0008938244
-  m_Center: {x: -2.6193447e-10, y: -2.9103825e-10, z: 0}
 --- !u!114 &-6165582306823903961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,3 +114,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: gold
+--- !u!65 &3254138024826550114
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2518345707259515830}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0018748865, y: 0.0018748861, z: 0.0005003063}
+  m_Center: {x: 0, y: 0, z: 0}

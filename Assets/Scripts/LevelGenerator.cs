@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +19,7 @@ using Unity.AI.Navigation;
 // 8 = emerald block
 //
 // 9 = monster spawner
+// 10 = storage box
 //////////////////////////////////
 
 public class LevelGenerator : MonoBehaviour 
@@ -31,7 +32,9 @@ public class LevelGenerator : MonoBehaviour
 	public GameObject floorPrefab;
 	public GameObject wallPrefab;
 	public GameObject breakablePrefab;
+	public GameObject exitWallPrefab;
 	public GameObject levelEndPrefab;
+	public GameObject storageBoxPrefab;
 
 	public GameObject[] treasureWallPrefabs;
 	public GameObject[] monsterSpawnerPrefabs;
@@ -47,12 +50,19 @@ public class LevelGenerator : MonoBehaviour
 	private int mazeSizeZ;
 	private float roomSizeFactor;
 
+	private bool shouldPlaceBox = false;
+
 	// 2D array representing the map
 	private int[,] mapData;
 
 	// Use this for initialization
 	void Start ()
 	{
+		GameData.monsterPopulation = 0;
+		GameData.MaxMonsterPopulation = 5;
+		//TODO: calculate level's max population
+		//TODO: limit spawners to max population
+
 		//define size based on level
 		// initialize map 2D array
 		mapData = GenerateMazeData();
@@ -71,14 +81,16 @@ public class LevelGenerator : MonoBehaviour
 				} 
 				else if(mapData[x, z] == 2) //breakable block
 				{ 
-					CreateChildPrefab(breakablePrefab, wallsParent, x, 1, z);
+					GameObject block = CreateChildPrefab(breakablePrefab, wallsParent, x, 1, z);
+					block.transform.Rotate(new Vector3(Random.Range(-1, 1) * 90, Random.Range(-1, 1) * 90, Random.Range(-1, 1) * 90));
 
 					// create floor below walls
 					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
 				}
 				else if(mapData[x, z] >= 6 && mapData[x, z] <= 8) //treasure block
 				{ 
-					CreateChildPrefab(treasureWallPrefabs[mapData[x, z] - 6], wallsParent, x, 1, z);
+					GameObject block = CreateChildPrefab(treasureWallPrefabs[mapData[x, z] - 6], wallsParent, x, 1, z);
+					block.transform.Rotate(new Vector3(Random.Range(-1, 1) * 90, Random.Range(-1, 1) * 90, Random.Range(-1, 1) * 90));
 
 					// create floor below walls
 					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
@@ -94,24 +106,34 @@ public class LevelGenerator : MonoBehaviour
 				}
 				else if(mapData[x, z] == 3)// level exit collider
 				{ 
-					CreateChildPrefab(breakablePrefab, wallsParent, x, 1, z);
+					GameObject block = CreateChildPrefab(exitWallPrefab, wallsParent, x, 1, z);
+					block.transform.Rotate(new Vector3(0, Random.Range(-1, 2) * 90, 0));
+
 					CreateChildPrefab(levelEndPrefab, usableObjectParent, x, 1, z);
 				}
 				else if(mapData[x, z] == 4)// level exit border
 				{ 
-					CreateChildPrefab(breakablePrefab, wallsParent, x, 1, z);
+					GameObject block = CreateChildPrefab(exitWallPrefab, wallsParent, x, 1, z);
+					block.transform.Rotate(new Vector3(0, Random.Range(-1, 2) * 90, 0));
 				}
 				else if(mapData[x, z] == 9)// monster spawner
 				{ 
 					CreateChildPrefab(monsterSpawnerPrefabs[0], spawnerParent, x, 1, z);
 					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
 				}
-
+				else if(mapData[x, z] == 10)// storage box
+				{ 
+					CreateChildPrefab(storageBoxPrefab, usableObjectParent, x, .5f, z);
+					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+					Debug.Log("Box placed");
+				}
 			}
 		}
 
 		// Generate NavMesh
 		navMesh.BuildNavMesh();
+
+		// Fill map with monsters
 		spawnerParent.GetComponent<SpawnTimer>().PopulateMap(playerController.transform);
 	}
 
@@ -184,8 +206,13 @@ public class LevelGenerator : MonoBehaviour
 		float tilesToRemove = innerTilesAmount * roomSizeFactor;
 
 		//calculate the amount of rooms are going to be made
-		int numberOfRooms = Random.Range(3, 9);
+		int numberOfRooms = Mathf.FloorToInt(Mathf.Pow(GameData.level, 1.5f)/5);
 
+		//prevents dividing for 0
+		if (numberOfRooms < 1)
+		{
+			numberOfRooms = 1;
+		}
 		//calculate the base size for the rooms
 		float roomBaseSize = tilesToRemove / numberOfRooms;
 
@@ -235,19 +262,30 @@ public class LevelGenerator : MonoBehaviour
 			int centerPointX = Mathf.FloorToInt((startingPointX + roomDimensionX/2));
 			int centerPointZ = Mathf.FloorToInt((startingPointZ + roomDimensionZ/2));
 
-			bool roomHasCenter;
-
 			// if room center is a valid point, place the spawner there
 			if(centerPointX > 0 && centerPointX < mazeSizeX - 1 && centerPointZ > 0 && centerPointZ < mazeSizeZ - 1)
 			{
 				data[centerPointX,centerPointZ] = 9;
+				// if a box should be place, turns the firts monster spawner of the map into a box
 			}
 
 			// if not, put the spawner at the corner
 			else
 			{
-				data[startingPointX, startingPointZ] = 9;
+				// if a box should be place, turns the firts monster spawner of the map into a box
+				if(shouldPlaceBox)
+				{
+					shouldPlaceBox = false;
+					data[startingPointX, startingPointZ] = 10;
+					Debug.Log("Box generated");
+				}
+				else
+				{
+					data[startingPointX, startingPointZ] = 9;
+				}
 			}
+
+			
 		}
 
 		/////////////////////////////////
@@ -320,15 +358,56 @@ public class LevelGenerator : MonoBehaviour
 
 		data[entryPointX, entryPointZ] = 5;
 
+		// place the storage box
+		// there surely a much better way to do this
+		if(Random.Range(0f, 100f) < GameData.boxChance)
+		{
+			shouldPlaceBox = true;
+			GameData.boxChance = 0f;
+		}
+		else
+		{
+			shouldPlaceBox = false;
+			GameData.boxChance += 10f;
+		}
+
+		if(shouldPlaceBox)
+		{
+			int skip = Random.Range(0, mazeSizeX + mazeSizeZ);
+
+			for(int x = 1; x < mazeSizeX -1; x++)
+			{
+				for(int z = 1; z < mazeSizeZ -1; z++)
+				{
+					if(data[x, z] == 0)
+					{
+						skip--;
+					}
+					if(skip < 0)
+					{
+						Debug.Log("Box generated");
+						data[x, z] = 10;
+						break;
+					}
+				}
+				if(skip < 0)
+				{
+					break;
+				}
+			}
+		}
+		
+
 		return data;
 	}
 
 	// allow us to instantiate something and immediately make it the child of this game object's
 	// transform, so we can containerize everything. also allows us to avoid writing Quaternion.
 	// identity all over the place, since we never spawn anything with rotation
-	void CreateChildPrefab(GameObject prefab, GameObject parent, int x, int y, int z)
+	public GameObject CreateChildPrefab(GameObject prefab, GameObject parent, float x, float y, float z)
 	{
 		var myPrefab = Instantiate(prefab, new Vector3(x, y, z), Quaternion.identity);
 		myPrefab.transform.parent = parent.transform;
+		return myPrefab;
 	}
 }

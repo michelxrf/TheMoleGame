@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7981132475531790799}
   - component: {fileID: 3564969157383759829}
   - component: {fileID: 806280282913807893}
-  - component: {fileID: 3470008920491012670}
+  - component: {fileID: 1931203280028591669}
   m_Layer: 3
   m_Name: Silver
   m_TagString: Pickup
@@ -28,9 +28,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8485434547688155162}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalScale: {x: 75, y: 75, z: 75}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8485434547688155162}
-  m_Mesh: {fileID: 4711208715938537054, guid: db7285e9c22f84d4ab69490ac92b3f3a, type: 3}
+  m_Mesh: {fileID: 5788055692296217900, guid: db7285e9c22f84d4ab69490ac92b3f3a, type: 3}
 --- !u!23 &7981132475531790799
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6478536213147159724, guid: db7285e9c22f84d4ab69490ac92b3f3a, type: 3}
+  - {fileID: 5315215887763878781, guid: db7285e9c22f84d4ab69490ac92b3f3a, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -114,8 +114,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: silver
---- !u!135 &3470008920491012670
-SphereCollider:
+--- !u!65 &1931203280028591669
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -125,5 +125,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.0008938244
-  m_Center: {x: -2.6193447e-10, y: -2.9103825e-10, z: 0}
+  m_Size: {x: 0.00187489, y: 0.0018748896, z: 0.0004999999}
+  m_Center: {x: 0, y: 0, z: 0}

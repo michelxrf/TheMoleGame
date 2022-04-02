@@ -8,38 +8,91 @@ public class TittleScreen : MonoBehaviour
 {
     public Text currentLevel;
     public Text highestLevel;
-    public GameObject resumeButton;
-    public GameObject newGameButton;
+    public Text resumeText;
+    public Button resumeButton;
+    public GameObject resetProgressButton;
+    public GameObject confirmationWarning;
 
     private void Start()
     {
-         Application.targetFrameRate = 300;
+        SaveSystem.LoadGame();
+
         Cursor.visible = true;
-        resumeButton.GetComponent<Button>().Select();
 
-        if(!SaveSystem.LoadGame())
+        if(GameData.level > 0)
         {
-            resumeButton.SetActive(false);
-            newGameButton.GetComponent<Button>().Select();
+            resumeText.text = "Resume - Level " + GameData.level.ToString();
         }
+        else
+        {
+            resumeText.text = "Resume - Start New Run";
+        }
+    }
 
+    private void Update()
+    {
         currentLevel.text = "current level: " + GameData.level.ToString();
         highestLevel.text = "highest level: " + GameData.highestLevel.ToString();
     }
+
     public void Resume()
     {
-        SceneManager.LoadScene("Play");
+        if(GameData.level == 0)
+        {
+            SceneManager.LoadScene("Shop Screen");
+        }
+        else
+        {
+            SceneManager.LoadScene("Play");
+        }
     }
 
-    public void NewGame()
+    public void ResetGame()
     {
-        GameData.level = 1;
+        GameData.level = 0;
+        GameData.highestLevel = 0;
+        GameData.boxChance = -50f;
+
         GameData.silver = 0;
         GameData.gold = 0;
         GameData.emerald = 0;
+
+        GameData.storedSilver = 0;
+        GameData.storedGold = 0;
+        GameData.storedEmerald = 0;
+
+        GameData.gameOverScoreSilver = 0;
+        GameData.gameOverScoreGold = 0;
+        GameData.gameOverScoreEmerald = 0;
+        GameData.killedMonsters = 0;
+
+        GameData.health = 3;
+        GameData.maxHealth = 3;
+        GameData.armor = 0;
+        GameData.speed = 3;
+        GameData.damage = 1;
+        GameData.pickaxe = 1;
+        GameData.lamp = 1;
+
+        for(int i = 0; i < GameData.consumables_bought.Length; i++)
+        {
+            GameData.consumables_bought[i] = false;
+        }
+        for(int i = 0; i < GameData.upgrades_bought.Length; i++)
+        {
+            GameData.upgrades_bought[i] = false;
+        }
+        for(int i = 0; i < GameData.skins_bought.Length; i++)
+        {
+            GameData.skins_bought[i] = false;
+        }
+
         SaveSystem.SaveGame();
-        
-        SceneManager.LoadScene("Play");
+    }
+
+    public void ShowConfirmation()
+    {
+        confirmationWarning.SetActive(true);
     }
 
     public void Quit()

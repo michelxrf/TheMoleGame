@@ -6,8 +6,10 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     public CharacterController controller;
-    public Transform camera;
+    public Transform cameraTransform;
     public Rigidbody gravityController;
+
+    public Animator animator;
 
     public float speed = 1f;
 
@@ -23,6 +25,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        SaveSystem.SaveGame();
         Cursor.visible = false;    
     }
 
@@ -45,12 +48,18 @@ public class PlayerController : MonoBehaviour
 
         if(direction.magnitude > 0)
         {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + camera.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, camera.eulerAngles.y, ref turnSmoothVelocity, turnSmoothTime);
+            animator.SetBool("is_walking", true);
+
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, cameraTransform.eulerAngles.y, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle , 0f);
             
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             controller.Move(moveDirection.normalized * speed * Time.deltaTime );
+        }
+        else
+        {
+            animator.SetBool("is_walking", false);
         }
         
         // DEBUG for regenerating level
@@ -64,24 +73,7 @@ public class PlayerController : MonoBehaviour
     {
         if(Input.GetMouseButton(0))
         {
-            //TODO: play animation
-            
-            //TODO: detect enemies
-            Collider[] hitWalls = Physics.OverlapSphere(attackPoint.position, attackRange, destructiblesLayer);
-            //TODO: detect undestructibles
-
-            //TODO: hurt hit enemies
-            foreach (Collider breakableWall in hitWalls)
-            {
-                var spawnFunction = breakableWall.transform.gameObject.GetComponent<SpawnGold>();
-                if(spawnFunction != null)
-                    spawnFunction.Hit();
-
-                Destroy(breakableWall.transform.gameObject);      
-            }
-            //TODO: react to unbreakable walls
-        
-        
+            animator.SetTrigger("strike_trigger");
         }
     }
 
@@ -89,6 +81,7 @@ public class PlayerController : MonoBehaviour
         // check for level end point
         if(other.gameObject.name == "LevelEnd" || other.gameObject.name == "LevelEnd(Clone)")
         {
+            animator.SetTrigger("fall_trigger");
             gravityController.isKinematic = false;
         } 
     }
@@ -102,9 +95,28 @@ public class PlayerController : MonoBehaviour
             if(GameData.level > GameData.highestLevel)
             GameData.highestLevel = GameData.level;
 
-            SaveSystem.SaveGame();
-
             SceneManager.LoadScene("Play");
         }
+    }
+
+    void enableHitBox()
+    {
+        //TODO: detect enemies
+        Collider[] hitWalls = Physics.OverlapSphere(attackPoint.position, attackRange, destructiblesLayer);
+        //TODO: detect undestructibles
+
+        //TODO: hurt hit enemies
+        foreach (Collider breakableWall in hitWalls)
+        {
+            var spawnFunction = breakableWall.transform.gameObject.GetComponent<SpawnGold>();
+            if(spawnFunction != null)
+                spawnFunction.Hit();
+
+            Destroy(breakableWall.transform.gameObject);      
+        }
+
+        animator.ResetTrigger("strike_trigger");
+
+        //TODO: react to unbreakable walls
     }
 }

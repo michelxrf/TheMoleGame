@@ -57,6 +57,11 @@ public class SpawnTimer : MonoBehaviour
         int spawnerCount = transform.childCount;
         for(int i = 0; i < spawnerCount; i++)
         {
+            if(GameData.monsterPopulation >= GameData.MaxMonsterPopulation)
+            {
+                Debug.Log("Max monster population reached, active monsters: " + GameData.monsterPopulation);
+                break;
+            }
             if(spawnedMonsters >= monsterTickets)
             {
                 Debug.Log("timed Spawn: " + spawnedMonsters);
@@ -80,7 +85,13 @@ public class SpawnTimer : MonoBehaviour
             if(distance > 8f)
             {
                 transform.GetChild(i).GetComponent<MonsterSpawner>().ForcedSpawn();
-            } 
+            }
+            
+            if(GameData.monsterPopulation >= GameData.MaxMonsterPopulation)
+            {
+                Debug.Log("Max monster population reached, active monsters: " + GameData.monsterPopulation);
+                break;
+            }
         }     
     }
 }

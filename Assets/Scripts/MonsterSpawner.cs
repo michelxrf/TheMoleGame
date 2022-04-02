@@ -19,7 +19,8 @@ public class MonsterSpawner : MonoBehaviour
     {
         if(!m_Renderer.isVisible)
         {
-            var newMonster = Instantiate(monster, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+            var newMonster = Instantiate(monster, new Vector3(transform.position.x, .5f, transform.position.z), Quaternion.identity);
+            GameData.monsterPopulation++;
             return true;
         }
         else
@@ -30,6 +31,7 @@ public class MonsterSpawner : MonoBehaviour
 
     public void ForcedSpawn()
     {
-        var newMonster = Instantiate(monster, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        var newMonster = Instantiate(monster, new Vector3(transform.position.x, .5f, transform.position.z), Quaternion.identity);
+        GameData.monsterPopulation++;
     }
 }

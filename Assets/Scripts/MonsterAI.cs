@@ -10,9 +10,6 @@ public class MonsterAI : MonoBehaviour
 
     public Animator animator;
 
-    public bool attack = false;
-    public bool hurt = false;
-
     void Start()
     {
         target = GameObject.Find("Player").transform;
