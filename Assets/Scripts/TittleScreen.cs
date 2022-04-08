@@ -12,6 +12,8 @@ public class TittleScreen : MonoBehaviour
     public Button resumeButton;
     public GameObject resetProgressButton;
     public GameObject confirmationWarning;
+    public GameObject confirmationMark;
+    public Button confirmationButton;
 
     private void Start()
     {
@@ -88,6 +90,9 @@ public class TittleScreen : MonoBehaviour
         }
 
         SaveSystem.SaveGame();
+
+        confirmationMark.SetActive(true);
+        confirmationButton.interactable = false;
     }
 
     public void ShowConfirmation()

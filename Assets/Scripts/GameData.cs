@@ -17,6 +17,8 @@ public class GameData : MonoBehaviour
     public static int gameOverScoreEmerald = 0;
     public static int killedMonsters = 0;
 
+    public static int killedMonstersThisLevel = 0;
+
     public static int storedSilver = 0;
     public static int storedGold = 0;
     public static int storedEmerald = 0;
@@ -61,7 +63,7 @@ public class GameData : MonoBehaviour
     public static bool gameIsPaused = false;
     public static int monsterPopulation;//TODO: be used to limit the amount of monsters per level active at the same time
     public static int attackingMonsters;//TODO: to be used to limit the amount of monsters attacking the player simultaniously
-    public static int MaxMonsterPopulation;//TODO: calculate this at level gen or spawnTimer
+    public static int maxMonsterPopulation;//TODO: calculate this at level gen or spawnTimer
 
     // DEBUG
     public static float spawnTimer = 0;

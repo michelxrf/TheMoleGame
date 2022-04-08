@@ -58,10 +58,7 @@ public class LevelGenerator : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		GameData.monsterPopulation = 0;
-		GameData.MaxMonsterPopulation = 5;
-		//TODO: calculate level's max population
-		//TODO: limit spawners to max population
+		GameData.maxMonsterPopulation = Mathf.FloorToInt(Mathf.Clamp(0.5f * GameData.level - 2, 0, 20));
 
 		//define size based on level
 		// initialize map 2D array
@@ -363,7 +360,7 @@ public class LevelGenerator : MonoBehaviour
 		if(Random.Range(0f, 100f) < GameData.boxChance)
 		{
 			shouldPlaceBox = true;
-			GameData.boxChance = 0f;
+			GameData.boxChance -= 20f;
 		}
 		else
 		{

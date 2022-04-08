@@ -11,7 +11,11 @@ public class HeartPickup : MonoBehaviour
     {
         if(other.gameObject.name == "Player")
         {
-            GameData.health += amount;
+            if(GameData.health < GameData.maxHealth)
+            {
+                GameData.health += amount;
+            }
+            
             Destroy(gameObject);
         }
     }

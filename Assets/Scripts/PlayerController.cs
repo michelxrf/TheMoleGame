@@ -8,10 +8,17 @@ public class PlayerController : MonoBehaviour
     public CharacterController controller;
     public Transform cameraTransform;
     public Rigidbody gravityController;
+    
+    public GameObject moleModel;
+    public GameObject spadeModel;
+    public Light flashLight;
+    public Light overLight;
 
     public Animator animator;
 
-    public float speed = 1f;
+    public float speed = 3f;
+
+    private bool playerIsAlive = true;
 
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
@@ -23,21 +30,73 @@ public class PlayerController : MonoBehaviour
     public LayerMask undestructiblesLayer;
     public float generateNewMapHeight = -3f;
 
+    public bool isInvulnerable = false;
+
     private void Start()
     {
         SaveSystem.SaveGame();
-        Cursor.visible = false;    
+        Cursor.visible = false;
+
+        speed = 1 + .25f*GameData.speed;
+
+        switch (GameData.lamp)
+        {
+            case 1:
+                overLight.spotAngle = 50f;
+                overLight.intensity = 8f;
+
+                flashLight.spotAngle = 60f;
+                flashLight.range = 6f;
+                flashLight.intensity = 1f;
+                break;
+
+            case 2:
+                overLight.spotAngle = 60f;
+                overLight.intensity = 9f;
+
+                flashLight.spotAngle = 75f;
+                flashLight.range = 7f;
+                flashLight.intensity = 1.5f;
+                break;
+
+            case 3:
+                overLight.spotAngle = 70f;
+                overLight.intensity = 10f;
+
+                flashLight.spotAngle = 90f;
+                flashLight.range = 12f;
+                flashLight.intensity = 2f;
+                break;
+
+            default:
+                Debug.LogError("GameData.lamp level not valid.");
+                break;
+        }
+        /*level1: angle 50, intensity 8;
+          level2: angle 60, intensity 9;
+          level3: angle 70, intensity 10;
+        */
+
+        // flashligth
+        /*level1: angle 60, range 6, intensitty 1
+          level2: angle 75, range 7,  intensity 1.5
+          level3: angle 90, range 12, intesity 2
+        
+        */    
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(gravityController.isKinematic == true && GameData.gameIsPaused == false)
+        if(playerIsAlive)
         {
-            Move();
-            Strike();
+            if(gravityController.isKinematic == true && GameData.gameIsPaused == false)
+            {
+                Move();
+                Strike();
+            }
+            checkFalls();
         }
-        checkFalls();
+        
     }
     void Move()
     {
@@ -65,6 +124,7 @@ public class PlayerController : MonoBehaviour
         // DEBUG for regenerating level
         if(Input.GetKeyDown("r"))
         {
+            GameData.level += 5;
             SceneManager.LoadScene("Play");
         }
     }
@@ -91,6 +151,8 @@ public class PlayerController : MonoBehaviour
         if(transform.position.y < generateNewMapHeight)
         {
             GameData.level++;
+            GameData.killedMonsters += GameData.killedMonstersThisLevel;
+            GameData.killedMonstersThisLevel = 0;
 
             if(GameData.level > GameData.highestLevel)
             GameData.highestLevel = GameData.level;
@@ -99,24 +161,103 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void enableHitBox()
+    public void enableHitBox()
     {
-        //TODO: detect enemies
-        Collider[] hitWalls = Physics.OverlapSphere(attackPoint.position, attackRange, destructiblesLayer);
-        //TODO: detect undestructibles
+        Collider[] hitStuff = Physics.OverlapSphere(attackPoint.position, attackRange);
 
-        //TODO: hurt hit enemies
-        foreach (Collider breakableWall in hitWalls)
+        foreach (Collider stuff in hitStuff)
         {
-            var spawnFunction = breakableWall.transform.gameObject.GetComponent<SpawnGold>();
-            if(spawnFunction != null)
-                spawnFunction.Hit();
+            // Breakable walls
+            if(stuff.transform.gameObject.layer == 8)
+            {
+                bool shouldDestroyIt = true;
+                var goldSpawnScript = stuff.transform.gameObject.GetComponent<SpawnGold>();
+                
+                if(goldSpawnScript)
+                shouldDestroyIt = goldSpawnScript.Hit();
 
-            Destroy(breakableWall.transform.gameObject);      
+                if(shouldDestroyIt)
+                Destroy(stuff.transform.gameObject);
+
+            }
+
+            // Monsters
+            if(stuff.transform.gameObject.layer == 6)
+            {
+                var monsterScript = stuff.transform.gameObject.GetComponent<MonsterAI>();
+
+                if(monsterScript)
+                monsterScript.Hurt(GameData.damage);
+            }
         }
 
         animator.ResetTrigger("strike_trigger");
 
         //TODO: react to unbreakable walls
+    }
+
+    public void Hurt(int damage)
+    {
+        if(playerIsAlive && !isInvulnerable)
+        {
+            GameData.health -= damage;
+
+            animator.SetTrigger("hurt_trigger");
+
+            if(GameData.health <= 0)
+            {
+                animator.SetTrigger("death_trigger");
+                StartCoroutine(FadeLights(50, 1));
+                playerIsAlive = false;
+
+                flashLight.intensity = 0;
+            }
+            else
+            {
+                StartCoroutine(BecomeInvulnerable(2f));
+            }
+        }
+        
+    }
+
+    public void PlayerIsDead()
+    {
+        SceneManager.LoadScene("GameOver");
+    }
+
+    IEnumerator BecomeInvulnerable(float seconds = 1f)
+    {
+        isInvulnerable = true;
+        StartCoroutine(Blink(.2f, seconds));
+        yield return new WaitForSeconds(seconds);
+        isInvulnerable = false;
+    }
+
+    IEnumerator Blink(float time = .2f, float totalDuration = 1f)
+    {
+        while(totalDuration > 0)
+        {
+            moleModel.SetActive(false);
+            spadeModel.SetActive(false);
+            yield return new WaitForSeconds(time);
+
+            moleModel.SetActive(true);
+            spadeModel.SetActive(true);
+            yield return new WaitForSeconds(time);
+
+            totalDuration -= time*2;
+        }
+    }
+
+    IEnumerator FadeLights(int angleSteps, float totalSeconds)
+    {
+        float degreesPerStep =  (overLight.spotAngle - 25)/angleSteps;
+        float waitPeriod = totalSeconds/angleSteps;
+
+        while(overLight.spotAngle > 25)
+        {
+            overLight.spotAngle -= degreesPerStep;
+            yield return new WaitForSeconds(waitPeriod);
+        }
     }
 }

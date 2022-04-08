@@ -11,6 +11,7 @@ public class UpdateUI : MonoBehaviour
     public Text emerald;
     public Text health;
     public Text timer;
+    public Text population;
     
     // Start is called before the first frame update
     void Update()
@@ -25,6 +26,7 @@ public class UpdateUI : MonoBehaviour
         silver.text = "Silver: " + GameData.silver.ToString();
         gold.text = "Gold: " + GameData.gold.ToString();
         emerald.text = "Emerald: " + GameData.emerald.ToString();
-        timer.text = GameData.spawnTimer.ToString("F2");
+        timer.text = "spawn every: " + GameData.spawnTimer.ToString("F2") + " seconds";
+        population.text = "Spiders: " + GameData.monsterPopulation.ToString() + "/" + GameData.maxMonsterPopulation.ToString();
     }
 }

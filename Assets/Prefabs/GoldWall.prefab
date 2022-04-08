@@ -112,6 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnThis: {fileID: 2518345707259515830, guid: f5deddec4c087164d9e3f8b7be57e8cb, type: 3}
+  treasureLevel: 2
 --- !u!208 &-2501206559495948379
 NavMeshObstacle:
   m_ObjectHideFlags: 0

@@ -7,7 +7,6 @@ public class MonsterSpawner : MonoBehaviour
     Renderer m_Renderer;
 
     public GameObject monster;
-    public GameObject mosnterParent;
     
     // Start is called before the first frame update
     void Start()

@@ -75,5 +75,10 @@ public class BoxController : MonoBehaviour
 
         GameData.storedEmerald += boxedEmerdald;
         GameData.gameOverScoreEmerald += boxedEmerdald;
+
+        if(isConsumed)
+        {
+            GameData.boxChance = 0f;
+        }
     }
 }

@@ -39,6 +39,8 @@ public class ShopScreen : MonoBehaviour
     public void StartGame()
     {
         GameData.level = 1;
+        GameData.health = GameData.maxHealth;
+
         SaveSystem.SaveGame();
         SceneManager.LoadScene("Play");
     }
