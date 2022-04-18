@@ -8,7 +8,8 @@ public class PauseMenu : MonoBehaviour
 {
     public Canvas pauseMenuUI;
     public Button resumeButton;
-    public Button quitButton;
+    public Text leaveMinesButton;
+    public Text leaveMinesHint;
 
     private void Start()
     {
@@ -52,5 +53,21 @@ public class PauseMenu : MonoBehaviour
     {
         Resume();
         SceneManager.LoadScene("Title Screen");
+    }
+
+    public void enableRetreat()
+    {
+        GameData.leaveMines = !GameData.leaveMines;
+
+        if(GameData.leaveMines)
+        {
+            leaveMinesHint.enabled = true;
+            leaveMinesButton.GetComponent<Text>().text = "Keep Mining";
+        }
+        else
+        {
+            leaveMinesHint.enabled = false;
+            leaveMinesButton.GetComponent<Text>().text = "Leave Mines";
+        }
     }
 }

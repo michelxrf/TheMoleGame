@@ -66,59 +66,80 @@ public static class SaveSystem
 
         if(File.Exists(path))
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
+            FileStream stream = null;
 
-            GameFile saveFile = formatter.Deserialize(stream) as GameFile;
-            stream.Close();
+            try
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                stream = new FileStream(path, FileMode.Open);
 
-            // variables getting recovered //
-            GameData.level = saveFile.lastLevel;
-            GameData.highestLevel = saveFile.highestLevel;
-            GameData.boxChance = saveFile.boxChance;
+                GameFile saveFile = formatter.Deserialize(stream) as GameFile;
+                stream.Close();
+
+                // variables getting recovered //
+                GameData.level = saveFile.lastLevel;
+                GameData.highestLevel = saveFile.highestLevel;
+                GameData.boxChance = saveFile.boxChance;
+                
+                GameData.silver = saveFile.silver;
+                GameData.gold = saveFile.gold;
+                GameData.emerald = saveFile.emerald;
+
+                GameData.gameOverScoreSilver = saveFile.gameOverScoreSilver;
+                GameData.gameOverScoreGold = saveFile.gameOverScoreGold;
+                GameData.gameOverScoreEmerald = saveFile.gameOverScoreEmerald;
+                GameData.killedMonsters = saveFile.killedMonsters;
+
+                GameData.storedSilver = saveFile.storedSilver;
+                GameData.storedGold = saveFile.storedGold;
+                GameData.storedEmerald = saveFile.storedEmerald;
+
+                GameData.health = saveFile.health;
+                GameData.maxHealth = saveFile.maxHealth;
+                GameData.armor = saveFile.armor;
+                GameData.speed = saveFile.speed;
+                GameData.damage = saveFile.damage;
+                GameData.pickaxe = saveFile.pickaxe;
+                GameData.lamp = saveFile.lamp;
+
+                for (int i = 0; i < saveFile.consumables_bought.Length; i++)
+                {
+                    GameData.consumables_bought[i] = saveFile.consumables_bought[i];
+                }
+                for (int i = 0; i < saveFile.upgrades_bought.Length; i++)
+                {
+                    GameData.upgrades_bought[i] = saveFile.upgrades_bought[i];
+                }
+                for (int i = 0; i < saveFile.skins_bought.Length; i++)
+                {
+                    GameData.skins_bought[i] = saveFile.skins_bought[i];
+                }
+                /////////////////////////////////
+
+                return true;
+            }
+            catch (System.Exception)
+            {
+                Debug.Log("Save file corrupted.");
+                if(stream != null)
+                stream.Close();
+
+                File.Delete(path);
+                Debug.Log("Save file deleted.");
+                SaveGame();
+                Debug.Log("new save file created.");
+            }
+            return false;
             
-            GameData.silver = saveFile.silver;
-            GameData.gold = saveFile.gold;
-            GameData.emerald = saveFile.emerald;
-
-            GameData.gameOverScoreSilver = saveFile.gameOverScoreSilver;
-            GameData.gameOverScoreGold = saveFile.gameOverScoreGold;
-            GameData.gameOverScoreEmerald = saveFile.gameOverScoreEmerald;
-            GameData.killedMonsters = saveFile.killedMonsters;
-
-            GameData.storedSilver = saveFile.storedSilver;
-            GameData.storedGold = saveFile.storedGold;
-            GameData.storedEmerald = saveFile.storedEmerald;
-
-            GameData.health = saveFile.health;
-            GameData.maxHealth = saveFile.maxHealth;
-            GameData.armor = saveFile.armor;
-            GameData.speed = saveFile.speed;
-            GameData.damage = saveFile.damage;
-            GameData.pickaxe = saveFile.pickaxe;
-            GameData.lamp = saveFile.lamp;
-
-            for (int i = 0; i < saveFile.consumables_bought.Length; i++)
-            {
-                GameData.consumables_bought[i] = saveFile.consumables_bought[i];
-            }
-            for (int i = 0; i < saveFile.upgrades_bought.Length; i++)
-            {
-                GameData.upgrades_bought[i] = saveFile.upgrades_bought[i];
-            }
-            for (int i = 0; i < saveFile.skins_bought.Length; i++)
-            {
-                GameData.skins_bought[i] = saveFile.skins_bought[i];
-            }
-            /////////////////////////////////
-
-            return true;
         }
         else
         {
             Debug.Log("There's no savefile. Path: " + path);
+            SaveGame();
+            Debug.Log("new save file created.");
             return false;
         }
+        
     }
 }
 

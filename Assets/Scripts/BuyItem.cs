@@ -22,9 +22,8 @@ public class BuyItem : MonoBehaviour
     private void Start()
     {
         priceTag.text = price.ToString() + " x";
-
+        
         ResetConsumbables();
-        CheckItemAvailability();
     }
 
     private void Update()
@@ -69,7 +68,7 @@ public class BuyItem : MonoBehaviour
             {
                 switch (stat)
                 {
-                    case "max_health":
+                    case "health":
                         GameData.maxHealth += Mathf.FloorToInt(stat_increase);
                         break;
 
@@ -159,41 +158,44 @@ public class BuyItem : MonoBehaviour
     {
         if(itemType == "consumable")
         {
-            if(GameData.consumables_bought[id])
-            {
-                switch (stat)
+            GameData.consumables_bought[id] = false;
+        }
+        else if(GameData.upgrades_bought[id])
+        {
+            switch (stat)
                 {
-                    case "max_health":
-                        GameData.maxHealth -= Mathf.FloorToInt(stat_increase);
+                    case "health":
+                        GameData.maxHealth += Mathf.FloorToInt(stat_increase);
                         break;
 
                     case "armor":
-                        GameData.armor -= Mathf.FloorToInt(stat_increase);
+                        GameData.armor += Mathf.FloorToInt(stat_increase);
                         break;
 
                     case "speed":
-                        GameData.speed -= stat_increase;
+                        GameData.speed += stat_increase;
                         break;
 
                     case "damage":
-                        GameData.damage -= Mathf.FloorToInt(stat_increase);
+                        GameData.damage += Mathf.FloorToInt(stat_increase);
                         break;
 
                     case "pickaxe":
-                        GameData.pickaxe -= Mathf.FloorToInt(stat_increase);
+                        GameData.pickaxe += Mathf.FloorToInt(stat_increase);
                         break;
 
                     case "lamp":
-                        GameData.pickaxe -= Mathf.FloorToInt(stat_increase);
+                        GameData.lamp += Mathf.FloorToInt(stat_increase);
+                        break;
+
+                    case "skin":
+                        //TODO: unlock skin
                         break;
 
                     default:
                         Debug.LogError("Stat type not recognized.");
                         break;
                 }
-
-                GameData.consumables_bought[id] = false;
-            }
         }
     }
 }

@@ -7,7 +7,7 @@ public class SpawnTimer : MonoBehaviour
     private float spawnRate;
     private Coroutine timer;
     private int spawnerCount;
-    private int spawnerToken = 0;
+    private int spawnerSelector = 0;
     
     // Start is called before the first frame update
     void Start()
@@ -15,12 +15,6 @@ public class SpawnTimer : MonoBehaviour
         spawnRate = Mathf.Clamp(-GameData.level + 20, 1, 15);
 
         timer = StartCoroutine(TimedSpawn());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        GameData.spawnTimer = spawnRate;
     }
 
     IEnumerator TimedSpawn()
@@ -38,14 +32,15 @@ public class SpawnTimer : MonoBehaviour
         {
             for(int i = 0; i < spawnerCount; i++)
             {
-                if(transform.GetChild(spawnerToken).GetComponent<MonsterSpawner>().SpawnIfHidden())
+                if(transform.GetChild(spawnerSelector).GetComponent<MonsterSpawner>().SpawnIfHidden())
                 {
                     break;
                 }
-                else
-                {
-                    spawnerToken++;
-                }
+                
+                spawnerSelector++;
+
+                if(spawnerSelector >= spawnerCount)
+                spawnerSelector = 0;
             }   
         }
     }

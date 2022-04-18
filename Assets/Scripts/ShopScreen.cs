@@ -22,6 +22,11 @@ public class ShopScreen : MonoBehaviour
         Cursor.visible = true;
     }
 
+    private void Awake()
+    {
+        ResetPlayerStats();
+    }
+
     void Update()
     {
         silver.text = GameData.storedSilver.ToString() + "x ";
@@ -43,5 +48,16 @@ public class ShopScreen : MonoBehaviour
 
         SaveSystem.SaveGame();
         SceneManager.LoadScene("Play");
+    }
+
+    private void ResetPlayerStats()
+    {   
+        GameData.health = 3;
+        GameData.maxHealth = 3;
+        GameData.armor = 0;
+        GameData.speed = 3;
+        GameData.damage = 1;
+        GameData.pickaxe = 1;
+        GameData.lamp = 1;
     }
 }

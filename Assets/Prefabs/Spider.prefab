@@ -138,7 +138,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1
-  m_Speed: 2.5
+  m_Speed: 1
   m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 1440
@@ -147,7 +147,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0.5
+  m_BaseOffset: 0.58
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 2
 --- !u!114 &659384748561689575
@@ -171,11 +171,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   heartPrefab: {fileID: 631332661326520953, guid: a689b3842669c4f48969fcbec1e47398, type: 3}
+  spiderParticles: {fileID: 1859349263057024783, guid: 6de4d5524c22a6d4aa946a9f1f42d4ea, type: 3}
   animator: {fileID: 3490316805855207760}
   monsterHealth: 3
   attackRange: 0.5
   monsterDamage: 1
-  spawnHeartChance: 33
+  spawnHeartChance: 25
   idleSpeed: 1
   detectionRange: 3
   minAggroChance: -25
@@ -190,7 +191,7 @@ Animator:
   m_GameObject: {fileID: 425576141291079041}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 924bab56947abf54b9c7a412b1dd5c75, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8bee5dc26c2c603429e3fe9582f9ee21, type: 2}
   m_CullingMode: 2
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

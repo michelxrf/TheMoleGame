@@ -163,7 +163,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 201448378760905579}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.58, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8444449162732554575}
@@ -209,6 +209,7 @@ MonoBehaviour:
   controller: {fileID: 1011860666762559009}
   cameraTransform: {fileID: 0}
   gravityController: {fileID: 1011860666762559015}
+  dirtParticles: {fileID: 3085618550304229988, guid: 31a5097708e71044a89144ccf4f5e1f6, type: 3}
   moleModel: {fileID: 528527406000796514}
   spadeModel: {fileID: 24186355972023573}
   flashLight: {fileID: 6811927115260864388}
@@ -217,7 +218,7 @@ MonoBehaviour:
   speed: 3
   turnSmoothTime: 0.1
   attackPoint: {fileID: 1011860665742515822}
-  attackRange: 0.5
+  attackRange: 0.4
   monstersLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -255,8 +256,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.45
-  m_Height: 0.5
+  m_Radius: 0.4
+  m_Height: 1.2
   m_Direction: 1
   m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!95 &1011860666762559013
@@ -1229,7 +1230,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7386388551908813919}
   m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
-  m_LocalPosition: {x: 0, y: 0.723, z: 0.388}
+  m_LocalPosition: {x: 0, y: 0.8, z: 0.033}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 684653345724373457}
@@ -1490,7 +1491,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8047791347361612549}
   m_LocalRotation: {x: -0.00000011520234, y: 0.7071067, z: 0.7071068, w: 0.00000011520232}
-  m_LocalPosition: {x: -0, y: 0.21727611, z: 0}
+  m_LocalPosition: {x: -0, y: 0.25, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children:
   - {fileID: 6148758226862205475}

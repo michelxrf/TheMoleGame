@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class TittleScreen : MonoBehaviour
 {
-    public Text currentLevel;
     public Text highestLevel;
     public Text resumeText;
     public Button resumeButton;
@@ -19,6 +18,8 @@ public class TittleScreen : MonoBehaviour
     {
         SaveSystem.LoadGame();
 
+        highestLevel.text = "highest level: " + GameData.highestLevel.ToString();
+
         Cursor.visible = true;
 
         if(GameData.level > 0)
@@ -29,12 +30,6 @@ public class TittleScreen : MonoBehaviour
         {
             resumeText.text = "Resume - Start New Run";
         }
-    }
-
-    private void Update()
-    {
-        currentLevel.text = "current level: " + GameData.level.ToString();
-        highestLevel.text = "highest level: " + GameData.highestLevel.ToString();
     }
 
     public void Resume()
@@ -93,6 +88,9 @@ public class TittleScreen : MonoBehaviour
 
         confirmationMark.SetActive(true);
         confirmationButton.interactable = false;
+
+        highestLevel.text = "highest level: " + GameData.highestLevel.ToString();
+        resumeText.text = "Resume - Start New Run";
     }
 
     public void ShowConfirmation()
@@ -103,6 +101,5 @@ public class TittleScreen : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
-        Debug.Log("I quit!");
     }
 }

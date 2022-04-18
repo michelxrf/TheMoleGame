@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public CharacterController controller;
     public Transform cameraTransform;
     public Rigidbody gravityController;
+    public GameObject dirtParticles;
     
     public GameObject moleModel;
     public GameObject spadeModel;
@@ -125,6 +126,11 @@ public class PlayerController : MonoBehaviour
         if(Input.GetKeyDown("r"))
         {
             GameData.level += 5;
+
+            GameData.storedSilver = 300;
+            GameData.storedGold = 300;
+            GameData.storedEmerald = 300;
+
             SceneManager.LoadScene("Play");
         }
     }
@@ -150,14 +156,21 @@ public class PlayerController : MonoBehaviour
     {
         if(transform.position.y < generateNewMapHeight)
         {
-            GameData.level++;
-            GameData.killedMonsters += GameData.killedMonstersThisLevel;
-            GameData.killedMonstersThisLevel = 0;
+            if(GameData.leaveMines)
+            {
+                SceneManager.LoadScene("Retreat");
+            }
+            else
+            {
+                GameData.level++;
+                GameData.killedMonsters += GameData.killedMonstersThisLevel;
+                GameData.killedMonstersThisLevel = 0;
 
-            if(GameData.level > GameData.highestLevel)
-            GameData.highestLevel = GameData.level;
+                if(GameData.level > GameData.highestLevel)
+                GameData.highestLevel = GameData.level;
 
-            SceneManager.LoadScene("Play");
+                SceneManager.LoadScene("Play");
+            }
         }
     }
 
@@ -177,8 +190,11 @@ public class PlayerController : MonoBehaviour
                 shouldDestroyIt = goldSpawnScript.Hit();
 
                 if(shouldDestroyIt)
-                Destroy(stuff.transform.gameObject);
+                {
+                    Instantiate(dirtParticles, stuff.transform.position, Quaternion.identity);
 
+                    Destroy(stuff.transform.gameObject);
+                }
             }
 
             // Monsters
@@ -200,7 +216,14 @@ public class PlayerController : MonoBehaviour
     {
         if(playerIsAlive && !isInvulnerable)
         {
-            GameData.health -= damage;
+            if(GameData.armor > 0)
+            {
+                GameData.armor--;      
+            }
+            else
+            {
+                GameData.health -= damage;
+            }
 
             animator.SetTrigger("hurt_trigger");
 

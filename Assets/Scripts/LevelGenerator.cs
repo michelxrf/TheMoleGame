@@ -37,7 +37,8 @@ public class LevelGenerator : MonoBehaviour
 	public GameObject storageBoxPrefab;
 
 	public GameObject[] treasureWallPrefabs;
-	public GameObject[] monsterSpawnerPrefabs;
+	public GameObject monsterSpawnerPrefabs;
+	private float bigSpiderChance, armoredSpiderChance, bigArmoredSpiderChance;
 
 	public GameObject playerController;
 
@@ -59,6 +60,7 @@ public class LevelGenerator : MonoBehaviour
 	void Start ()
 	{
 		GameData.maxMonsterPopulation = Mathf.FloorToInt(Mathf.Clamp(0.5f * GameData.level - 2, 0, 20));
+		CalculateMosnterChances();
 
 		//define size based on level
 		// initialize map 2D array
@@ -71,10 +73,12 @@ public class LevelGenerator : MonoBehaviour
 			{
 				if (mapData[x, z] == 1) // solid walls
 				{ 
-					CreateChildPrefab(wallPrefab, wallsParent, x, 1, z);
+					GameObject block = CreateChildPrefab(wallPrefab, wallsParent, x, 1, z);
+					block.transform.Rotate(new Vector3(0, Random.Range(-1, 2) * 90, 0));
 
 					// create floor below walls
-					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+					block = CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+					block.transform.Rotate(new Vector3(0, Random.Range(-1, 2) * 90, 0));
 				} 
 				else if(mapData[x, z] == 2) //breakable block
 				{ 
@@ -82,7 +86,8 @@ public class LevelGenerator : MonoBehaviour
 					block.transform.Rotate(new Vector3(Random.Range(-1, 1) * 90, Random.Range(-1, 1) * 90, Random.Range(-1, 1) * 90));
 
 					// create floor below walls
-					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+					block = CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+					block.transform.Rotate(new Vector3(0, Random.Range(-1, 2) * 90, 0));
 				}
 				else if(mapData[x, z] >= 6 && mapData[x, z] <= 8) //treasure block
 				{ 
@@ -90,16 +95,19 @@ public class LevelGenerator : MonoBehaviour
 					block.transform.Rotate(new Vector3(Random.Range(-1, 1) * 90, Random.Range(-1, 1) * 90, Random.Range(-1, 1) * 90));
 
 					// create floor below walls
-					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+					block = CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+					block.transform.Rotate(new Vector3(0, Random.Range(-1, 2) * 90, 0));
 				}
                 else if(mapData[x, z] == 0)// floor only
 				{ 
-					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+					GameObject block = CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+					block.transform.Rotate(new Vector3(0, Random.Range(-1, 2) * 90, 0));
 				}
 				else if(mapData[x, z] == 5)// player spawn, has to be set before the exit collider
 				{ 
 					playerController.transform.position = new Vector3(x, .5f, z);
-					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+					GameObject block = CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+					block.transform.Rotate(new Vector3(0, Random.Range(-1, 2) * 90, 0));
 				}
 				else if(mapData[x, z] == 3)// level exit collider
 				{ 
@@ -115,14 +123,16 @@ public class LevelGenerator : MonoBehaviour
 				}
 				else if(mapData[x, z] == 9)// monster spawner
 				{ 
-					CreateChildPrefab(monsterSpawnerPrefabs[0], spawnerParent, x, 1, z);
-					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+					var thisMonsterSpawner = CreateChildPrefab(monsterSpawnerPrefabs, spawnerParent, x, 1, z);
+					thisMonsterSpawner.GetComponent<MonsterSpawner>().SetMonsterType(CalculateMonsterSpawner());
+					GameObject block = CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+					block.transform.Rotate(new Vector3(0, Random.Range(-1, 2) * 90, 0));
 				}
 				else if(mapData[x, z] == 10)// storage box
 				{ 
 					CreateChildPrefab(storageBoxPrefab, usableObjectParent, x, .5f, z);
-					CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
-					Debug.Log("Box placed");
+					GameObject block = CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+					block.transform.Rotate(new Vector3(0, Random.Range(-1, 2) * 90, 0));
 				}
 			}
 		}
@@ -244,10 +254,6 @@ public class LevelGenerator : MonoBehaviour
 					{
 						data[x,z] = 0;
 					}
-					else
-					{
-						Debug.Log("Room is too big!");
-					}
 				}
 			}
 
@@ -274,7 +280,6 @@ public class LevelGenerator : MonoBehaviour
 				{
 					shouldPlaceBox = false;
 					data[startingPointX, startingPointZ] = 10;
-					Debug.Log("Box generated");
 				}
 				else
 				{
@@ -365,7 +370,7 @@ public class LevelGenerator : MonoBehaviour
 		else
 		{
 			shouldPlaceBox = false;
-			GameData.boxChance += 10f;
+			GameData.boxChance += 15f;
 		}
 
 		if(shouldPlaceBox)
@@ -382,7 +387,6 @@ public class LevelGenerator : MonoBehaviour
 					}
 					if(skip < 0)
 					{
-						Debug.Log("Box generated");
 						data[x, z] = 10;
 						break;
 					}
@@ -406,5 +410,38 @@ public class LevelGenerator : MonoBehaviour
 		var myPrefab = Instantiate(prefab, new Vector3(x, y, z), Quaternion.identity);
 		myPrefab.transform.parent = parent.transform;
 		return myPrefab;
+	}
+
+	private int CalculateMonsterSpawner()
+	{
+		if(Random.Range(0f, 100f) < bigArmoredSpiderChance)
+		{
+			return 3;
+		}
+		else if(Random.Range(0f, 100f) < armoredSpiderChance)
+		{
+			return 2;
+		}
+		else if(Random.Range(0f, 100f) < bigSpiderChance)
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+	private void CalculateMosnterChances()
+	{
+		bigSpiderChance = (-Mathf.Pow(GameData.level - 15f, 2f)/25f + 0.2f) * 100f;
+
+		armoredSpiderChance = ((GameData.level - 20f)/15f) * 100f;
+		if(armoredSpiderChance > 60f)
+		armoredSpiderChance = 60f;
+
+		bigArmoredSpiderChance = ((GameData.level - 25f)/30f) * 100f;
+		if(bigArmoredSpiderChance > 10f)//had to use IF, Mathf.Max was giving weird results
+		bigArmoredSpiderChance = 10f;
 	}
 }

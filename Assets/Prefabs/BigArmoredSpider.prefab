@@ -124,6 +124,7 @@ Transform:
   m_Children:
   - {fileID: 7858324134928009930}
   - {fileID: 3046087035794581317}
+  - {fileID: 8075549512357698025}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -135,9 +136,9 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1942570775694852334}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 3.5
+  m_Radius: 3
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
@@ -151,7 +152,7 @@ Animator:
   m_GameObject: {fileID: 1942570775694852334}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 924bab56947abf54b9c7a412b1dd5c75, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8bee5dc26c2c603429e3fe9582f9ee21, type: 2}
   m_CullingMode: 2
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -173,8 +174,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navMesh: {fileID: 1599916986575688918}
-  target: {fileID: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
+  playerTransform: {fileID: 0}
+  aiMode: idle
+  attackPoint: {fileID: 8075549512357698025}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  heartPrefab: {fileID: 631332661326520953, guid: a689b3842669c4f48969fcbec1e47398, type: 3}
+  spiderParticles: {fileID: 1859349263057024783, guid: 25ccc60d0dabc04409532377a9152f0f, type: 3}
   animator: {fileID: 1599916986575688917}
+  monsterHealth: 12
+  attackRange: 0.75
+  monsterDamage: 2
+  spawnHeartChance: 25
+  idleSpeed: 1
+  detectionRange: 5
+  minAggroChance: 0
+  maxAggroChance: 75
+  memoryDuration: 5
 --- !u!195 &1599916986575688918
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -184,12 +202,12 @@ NavMeshAgent:
   m_GameObject: {fileID: 1942570775694852334}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 1.5
-  m_Acceleration: 100
+  m_Radius: 1.75
+  m_Speed: 2.5
+  m_Acceleration: 50
   avoidancePriority: 50
-  m_AngularSpeed: 1440
-  m_StoppingDistance: 0.5
+  m_AngularSpeed: 720
+  m_StoppingDistance: 0.75
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -606,7 +624,7 @@ GameObject:
   - component: {fileID: 3046087035794581317}
   - component: {fileID: 3981213851491660193}
   m_Layer: 6
-  m_Name: Spider
+  m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -983,6 +1001,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1587162097475646972}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8308378582853106299
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8075549512357698025}
+  m_Layer: 6
+  m_Name: AttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8075549512357698025
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8308378582853106299}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1278658873752328788}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8554496568143773104
 GameObject:

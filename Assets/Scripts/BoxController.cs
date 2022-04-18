@@ -55,14 +55,14 @@ public class BoxController : MonoBehaviour
         boxedSilver = GameData.silver;
         GameData.silver = 0;
 
-        GameData.storedGold = GameData.gold;
+        boxedGold = GameData.gold;
         GameData.gold = 0;
 
         boxedEmerdald = GameData.emerald;
         GameData.emerald = 0;
 
         lidAnimation.SetTrigger("close_trigger");
-        Destroy(lights, 1);
+        Destroy(lights, 1f);
     }
 
     private void OnDestroy()

@@ -10,10 +10,12 @@ public class MonsterAI : MonoBehaviour
     public Transform playerTransform;
     public string aiMode; // hunt, idle, stalk, escape
     private bool shouldRecalculateTarget = true;
+    private LayerMask raycastFilter = 0b1100000000;
 
     public Transform attackPoint;
     public LayerMask playerLayer;
     public GameObject heartPrefab;
+    public GameObject spiderParticles;
 
     public Animator animator;
 
@@ -32,6 +34,7 @@ public class MonsterAI : MonoBehaviour
     public float minAggroChance, maxAggroChance;
     private bool stalkTimerActive = false;
     private float fleeMultiplier = 1.5f;
+    public float memoryDuration = 5f;
 
     void Start()
     {
@@ -96,6 +99,7 @@ public class MonsterAI : MonoBehaviour
             GameData.killedMonstersThisLevel++;
 
             spawnHeart();
+            Instantiate(spiderParticles, transform.position, Quaternion.identity);
             
             Destroy(gameObject);
         }
@@ -214,16 +218,15 @@ public class MonsterAI : MonoBehaviour
         RaycastHit hit;
         var distance = playerTransform.position - transform.position;
 
-        if(Physics.Raycast(transform.position, distance, out hit, detectionRange))
+        if(Physics.Raycast(transform.position, distance, out hit, detectionRange, raycastFilter))
         {
+            Debug.DrawRay(transform.position, distance, Color.green, .1f);
             monsterSeesPlayer = hit.collider.gameObject.layer == 9;
         }
         else
         {
             monsterSeesPlayer = false;
         }
-        
-        
 
         if(monsterSeesPlayer)
         {
@@ -237,12 +240,10 @@ public class MonsterAI : MonoBehaviour
             shouldRecalculateTarget = true;
         }
 
-
-
         if(aiMode != "idle" && distance.magnitude > stalkRange * 1.5f)
         {
             lostPlayerTime += Time.deltaTime;
-            if(lostPlayerTime > 5f)
+            if(lostPlayerTime > memoryDuration)
             {
                 aiMode = "idle";
                 fleeMultiplier = 1.5f;

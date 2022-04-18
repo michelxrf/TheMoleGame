@@ -6,7 +6,8 @@ public class MonsterSpawner : MonoBehaviour
 {
     Renderer m_Renderer;
 
-    public GameObject monster;
+    public GameObject[] monster;
+    private int monsterIndex;
     
     // Start is called before the first frame update
     void Start()
@@ -14,11 +15,16 @@ public class MonsterSpawner : MonoBehaviour
         m_Renderer = GetComponent<Renderer>();
     }
 
+    public void SetMonsterType(int index)
+    {
+        monsterIndex = index;
+    }
+
     public bool SpawnIfHidden()
     {
         if(!m_Renderer.isVisible)
         {
-            var newMonster = Instantiate(monster, new Vector3(transform.position.x, .5f, transform.position.z), Quaternion.identity);
+            var newMonster = Instantiate(monster[monsterIndex], new Vector3(transform.position.x, .5f, transform.position.z), Quaternion.identity);
             GameData.monsterPopulation++;
             return true;
         }
@@ -30,7 +36,7 @@ public class MonsterSpawner : MonoBehaviour
 
     public void ForcedSpawn()
     {
-        var newMonster = Instantiate(monster, new Vector3(transform.position.x, .5f, transform.position.z), Quaternion.identity);
+        var newMonster = Instantiate(monster[monsterIndex], new Vector3(transform.position.x, .5f, transform.position.z), Quaternion.identity);
         GameData.monsterPopulation++;
     }
 }

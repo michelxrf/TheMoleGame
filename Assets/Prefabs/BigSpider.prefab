@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 7397238333623601862}
   - component: {fileID: 8911983681317018658}
   m_Layer: 6
-  m_Name: Spider
+  m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -760,11 +760,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6203920432025054573}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.064415, y: 0.454, z: 4.144202}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children:
   - {fileID: 2442012289583261513}
   - {fileID: 7397238333623601862}
+  - {fileID: 3367181699188108793}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -778,7 +779,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 3.5
+  m_Radius: 3
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
@@ -792,7 +793,7 @@ Animator:
   m_GameObject: {fileID: 6203920432025054573}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 924bab56947abf54b9c7a412b1dd5c75, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8bee5dc26c2c603429e3fe9582f9ee21, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -814,8 +815,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navMesh: {fileID: 6546449430316819576}
-  target: {fileID: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
+  playerTransform: {fileID: 0}
+  aiMode: idle
+  attackPoint: {fileID: 3367181699188108793}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  heartPrefab: {fileID: 631332661326520953, guid: a689b3842669c4f48969fcbec1e47398, type: 3}
+  spiderParticles: {fileID: 1859349263057024783, guid: 25ccc60d0dabc04409532377a9152f0f, type: 3}
   animator: {fileID: 6546449430316819579}
+  monsterHealth: 6
+  attackRange: 0.75
+  monsterDamage: 2
+  spawnHeartChance: 25
+  idleSpeed: 1
+  detectionRange: 5
+  minAggroChance: -25
+  maxAggroChance: 50
+  memoryDuration: 5
 --- !u!195 &6546449430316819576
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -825,12 +843,12 @@ NavMeshAgent:
   m_GameObject: {fileID: 6203920432025054573}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 1.5
-  m_Acceleration: 100
+  m_Radius: 1.75
+  m_Speed: 2.5
+  m_Acceleration: 50
   avoidancePriority: 50
-  m_AngularSpeed: 1440
-  m_StoppingDistance: 0.5
+  m_AngularSpeed: 720
+  m_StoppingDistance: 0.75
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -867,6 +885,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6394069845919011786}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7737143981196115424
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3367181699188108793}
+  m_Layer: 6
+  m_Name: AttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3367181699188108793
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7737143981196115424}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6724736740861704151}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7847058078527509770
 GameObject:

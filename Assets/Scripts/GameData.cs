@@ -61,10 +61,8 @@ public class GameData : MonoBehaviour
             */
 
     public static bool gameIsPaused = false;
-    public static int monsterPopulation;//TODO: be used to limit the amount of monsters per level active at the same time
-    public static int attackingMonsters;//TODO: to be used to limit the amount of monsters attacking the player simultaniously
-    public static int maxMonsterPopulation;//TODO: calculate this at level gen or spawnTimer
+    public static int monsterPopulation;
+    public static int maxMonsterPopulation;
 
-    // DEBUG
-    public static float spawnTimer = 0;
+    public static bool leaveMines = false;
 }

@@ -378,6 +378,10 @@ MonoBehaviour:
   tip: {fileID: 0}
   lidAnimation: {fileID: 7447102753149644395}
   boxAnimation: {fileID: 7447102753149644309}
+  lights: {fileID: 4772295044925193718}
+  boxedSilver: 0
+  boxedGold: 0
+  boxedEmerdald: 0
 --- !u!208 &-6963721281331163701
 NavMeshObstacle:
   m_ObjectHideFlags: 0
