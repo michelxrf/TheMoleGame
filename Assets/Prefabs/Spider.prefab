@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 659384748561689575}
   - component: {fileID: 3490316805855207760}
   - component: {fileID: 60679802746740915}
+  - component: {fileID: 447505786773279607}
   m_Layer: 6
   m_Name: Spider
   m_TagString: Untagged
@@ -172,15 +173,25 @@ MonoBehaviour:
     m_Bits: 512
   heartPrefab: {fileID: 631332661326520953, guid: a689b3842669c4f48969fcbec1e47398, type: 3}
   spiderParticles: {fileID: 1859349263057024783, guid: 6de4d5524c22a6d4aa946a9f1f42d4ea, type: 3}
+  audioPlayer: {fileID: 447505786773279607}
+  spiderWalk:
+  - {fileID: 8300000, guid: 0171d3421ad80fb43bd8aa4c4e4cb3bf, type: 3}
+  - {fileID: 8300000, guid: ffe8284fcc5328f408dd92383a01c3db, type: 3}
+  - {fileID: 8300000, guid: 2eb1aa717404bdd4b9d961f6cf6e9171, type: 3}
+  spiderAttack: {fileID: 8300000, guid: f4f32711bff56c54e9cf8139eb4fd665, type: 3}
+  spiderHurt:
+  - {fileID: 8300000, guid: baec5e641d01a7e44833341242c42f4e, type: 3}
+  - {fileID: 8300000, guid: fdcbceb26b192fd4988d2e646bbb1685, type: 3}
   animator: {fileID: 3490316805855207760}
   monsterHealth: 3
   attackRange: 0.5
   monsterDamage: 1
-  spawnHeartChance: 25
-  idleSpeed: 1
+  spawnHeartChance: 30
+  idleSpeed: 1.5
   detectionRange: 3
   minAggroChance: -25
   maxAggroChance: 50
+  memoryDuration: 5
 --- !u!95 &3490316805855207760
 Animator:
   serializedVersion: 3
@@ -214,6 +225,102 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!82 &447505786773279607
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 425576141291079041}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &458471494684936417
 GameObject:
   m_ObjectHideFlags: 0

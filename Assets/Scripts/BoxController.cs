@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class BoxController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class BoxController : MonoBehaviour
     public Animator lidAnimation;
     public Animator boxAnimation;
     public GameObject lights;
+    public AudioSource audioPlayer;
 
     private bool isInteractable = false;
     private bool isConsumed = false;
@@ -62,6 +64,7 @@ public class BoxController : MonoBehaviour
         GameData.emerald = 0;
 
         lidAnimation.SetTrigger("close_trigger");
+        audioPlayer.Play();
         Destroy(lights, 1f);
     }
 

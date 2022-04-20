@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -387,6 +387,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1665601137}
+  - {fileID: 2110593644}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -452,7 +453,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 804697678049758978, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.00000047683716
       objectReference: {fileID: 0}
     - target: {fileID: 804697678049758978, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
       propertyPath: m_LocalPosition.y
@@ -479,8 +480,12 @@ PrefabInstance:
       value: 0.13268346
       objectReference: {fileID: 0}
     - target: {fileID: 825803259178714722, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 825803259178714722, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8790374
+      value: 0.8790373
       objectReference: {fileID: 0}
     - target: {fileID: 825803259178714722, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
       propertyPath: m_LocalRotation.x
@@ -488,16 +493,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 825803259178714722, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.32493442
+      value: -0.32493448
       objectReference: {fileID: 0}
     - target: {fileID: 825803259178714722, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.12096002
+      value: 0.12096004
       objectReference: {fileID: 0}
     - target: {fileID: 1011860666762559008, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
       propertyPath: camera
       value: 
       objectReference: {fileID: 963194228}
+    - target: {fileID: 1011860666762559008, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
+      propertyPath: pickaxeTip
+      value: 
+      objectReference: {fileID: 2110593645}
     - target: {fileID: 1011860666762559008, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
       propertyPath: cameraTransform
       value: 
@@ -508,7 +517,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4473425658181622229, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.9025354
+      value: 3.902536
       objectReference: {fileID: 0}
     - target: {fileID: 4473425658181622229, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
       propertyPath: m_LocalPosition.y
@@ -517,6 +526,18 @@ PrefabInstance:
     - target: {fileID: 4473425658181622229, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
       propertyPath: m_LocalPosition.z
       value: -4.557435
+      objectReference: {fileID: 0}
+    - target: {fileID: 5561068507437956034, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
+      propertyPath: m_Lens.m_SensorSize.x
+      value: 1.6762115
+      objectReference: {fileID: 0}
+    - target: {fileID: 7853881854283334949, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
+      propertyPath: m_Lens.m_SensorSize.x
+      value: 1.6762115
+      objectReference: {fileID: 0}
+    - target: {fileID: 8271097578938657613, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8271097578938657613, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
       propertyPath: m_LocalPosition.y
@@ -536,7 +557,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8271097578938657613, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.12683493
+      value: 0.12683494
       objectReference: {fileID: 0}
     - target: {fileID: 8902785400316703997, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
       propertyPath: m_Orbits.Array.data[0].m_Height
@@ -561,6 +582,10 @@ PrefabInstance:
     - target: {fileID: 8902785400316703997, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
       propertyPath: m_Orbits.Array.data[2].m_Radius
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209776686335293314, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
+      propertyPath: m_Lens.m_SensorSize.x
+      value: 1.6762115
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 949f648ff1ea4164980a576f6cf79777, type: 3}
@@ -828,8 +853,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScaleFactor: 1.5
+  m_ReferenceResolution: {x: 640, y: 480}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1125,8 +1150,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.32723024, y: -0.3249344, z: 0.12096, w: 0.8790374}
-  m_LocalPosition: {x: 3.9025354, y: 6.58, z: -4.557435}
+  m_LocalRotation: {x: 0.32723022, y: -0.3249345, z: 0.12096002, w: 0.8790374}
+  m_LocalPosition: {x: 4.5529594, y: 7, z: -5.317007}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1643,6 +1668,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 871620904}
     m_Modifications:
+    - target: {fileID: 552166549412589227, guid: 610bf71f5f3299e4ca12b64c99146c60, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 552166549412589227, guid: 610bf71f5f3299e4ca12b64c99146c60, type: 3}
+      propertyPath: m_FontData.m_BestFit
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6808079096150450103, guid: 610bf71f5f3299e4ca12b64c99146c60, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1948,7 +1981,7 @@ GameObject:
   - component: {fileID: 1665601139}
   - component: {fileID: 1665601138}
   m_Layer: 5
-  m_Name: TipText
+  m_Name: BoxTip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2493,4 +2526,83 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1956197245}
+  m_CullTransparentMesh: 1
+--- !u!1 &2110593643
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2110593644}
+  - component: {fileID: 2110593646}
+  - component: {fileID: 2110593645}
+  m_Layer: 5
+  m_Name: Pickaxe
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2110593644
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110593643}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 140627014}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.0000052403, y: -184.3}
+  m_SizeDelta: {x: 270.76, y: 43.3094}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2110593645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110593643}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Upgrade your Pickaxe at the shop to dig this treasure.
+--- !u!222 &2110593646
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110593643}
   m_CullTransparentMesh: 1

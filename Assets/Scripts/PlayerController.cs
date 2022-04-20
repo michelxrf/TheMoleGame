@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,6 +16,16 @@ public class PlayerController : MonoBehaviour
     public GameObject spadeModel;
     public Light flashLight;
     public Light overLight;
+
+    public Text pickaxeTip;
+
+    public AudioClip[] hurtSound;
+    public AudioClip gameOverSound;
+    public AudioClip[] coinSound;
+    public AudioClip heartSound;
+    public AudioSource ambienceSound;
+
+    public AudioSource audioPlayer;
 
     public Animator animator;
 
@@ -35,10 +47,13 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        ambienceSound.time = GameData.ambienceSoundTime;
         SaveSystem.SaveGame();
         Cursor.visible = false;
 
-        speed = 1 + .25f*GameData.speed;
+        speed = 1 + 0.2f * GameData.speed;
+
+        animator.SetFloat("strike_speed_factor", 1 + GameData.speed * 0.015f);
 
         switch (GameData.lamp)
         {
@@ -121,18 +136,6 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("is_walking", false);
         }
-        
-        // DEBUG for regenerating level
-        if(Input.GetKeyDown("r"))
-        {
-            GameData.level += 5;
-
-            GameData.storedSilver = 300;
-            GameData.storedGold = 300;
-            GameData.storedEmerald = 300;
-
-            SceneManager.LoadScene("Play");
-        }
     }
 
     void Strike()
@@ -158,6 +161,7 @@ public class PlayerController : MonoBehaviour
         {
             if(GameData.leaveMines)
             {
+                GameData.leaveMines = false;
                 SceneManager.LoadScene("Retreat");
             }
             else
@@ -169,6 +173,7 @@ public class PlayerController : MonoBehaviour
                 if(GameData.level > GameData.highestLevel)
                 GameData.highestLevel = GameData.level;
 
+                GameData.ambienceSoundTime = ambienceSound.time;
                 SceneManager.LoadScene("Play");
             }
         }
@@ -195,6 +200,10 @@ public class PlayerController : MonoBehaviour
 
                     Destroy(stuff.transform.gameObject);
                 }
+                else if(goldSpawnScript)
+                {
+                    StartCoroutine(PickaxeTip());
+                }
             }
 
             // Monsters
@@ -208,8 +217,6 @@ public class PlayerController : MonoBehaviour
         }
 
         animator.ResetTrigger("strike_trigger");
-
-        //TODO: react to unbreakable walls
     }
 
     public void Hurt(int damage)
@@ -225,10 +232,12 @@ public class PlayerController : MonoBehaviour
                 GameData.health -= damage;
             }
 
+            audioPlayer.PlayOneShot(hurtSound[Random.Range(0, hurtSound.Length)]);
             animator.SetTrigger("hurt_trigger");
 
             if(GameData.health <= 0)
             {
+                audioPlayer.PlayOneShot(gameOverSound);
                 animator.SetTrigger("death_trigger");
                 StartCoroutine(FadeLights(50, 1));
                 playerIsAlive = false;
@@ -282,5 +291,44 @@ public class PlayerController : MonoBehaviour
             overLight.spotAngle -= degreesPerStep;
             yield return new WaitForSeconds(waitPeriod);
         }
+    }
+
+    public void PickupCoin(string type)
+    {
+        switch (type)
+        {
+            case "silver":
+                GameData.silver += 1;
+                break;
+            
+            case "gold":
+                GameData.gold += 1;
+                break;
+            
+            case "emerald":
+                GameData.emerald += 1;
+                break;
+
+            default:
+                Debug.LogError("Valuable type not recognized.");
+                break;
+        }
+        audioPlayer.PlayOneShot(coinSound[Random.Range(0, coinSound.Length)]);
+    }
+
+    public void PickupHeart(int amount)
+    {
+        if(GameData.health < GameData.maxHealth)
+        {
+            GameData.health += amount;
+        }
+        audioPlayer.PlayOneShot(heartSound);
+    }
+
+    IEnumerator PickaxeTip()
+    {
+        pickaxeTip.enabled = true;
+        yield return new WaitForSeconds(1);
+        pickaxeTip.enabled = false;
     }
 }

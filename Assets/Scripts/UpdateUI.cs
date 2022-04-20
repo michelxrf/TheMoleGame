@@ -51,7 +51,7 @@ public class UpdateUI : MonoBehaviour
     {
         for(int i = 0; i < GameData.maxHealth; i++)
         {
-            var thisHeart = Instantiate(emptyHeartPrefab, new Vector3(20 + 30 * i, 20, 0), Quaternion.identity, hud.transform);
+            var thisHeart = Instantiate(emptyHeartPrefab, new Vector3(20 + 45 * i, 20, 0), Quaternion.identity, hud.transform);
         }
     }
 
@@ -59,7 +59,7 @@ public class UpdateUI : MonoBehaviour
     {
         for(int i = 0; i < GameData.maxHealth; i++)
         {
-            var thisHeart = Instantiate(fullHeartPrefab, new Vector3(20 + 30 * i, 20, 0), Quaternion.identity, hud.transform);
+            var thisHeart = Instantiate(fullHeartPrefab, new Vector3(20 + 45 * i, 20, 0), Quaternion.identity, hud.transform);
             heartList.Add(thisHeart);
         }
     }
@@ -68,7 +68,7 @@ public class UpdateUI : MonoBehaviour
     {
         for(int i = 0; i < GameData.armor; i++)
         {
-            var thisShield = Instantiate(shieldPrefab, new Vector3(20 + 30 * (GameData.maxHealth + i), 20, 0), Quaternion.identity, hud.transform);
+            var thisShield = Instantiate(shieldPrefab, new Vector3(20 + 45 * (GameData.maxHealth + i), 20, 0), Quaternion.identity, hud.transform);
             shieldList.Add(thisShield);
         }
     }

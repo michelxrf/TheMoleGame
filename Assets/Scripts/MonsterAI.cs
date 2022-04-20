@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Audio;
 
 public class MonsterAI : MonoBehaviour
 {
     public NavMeshAgent navMesh;
     public Vector3 targetPosition;
     public Transform playerTransform;
-    public string aiMode; // hunt, idle, stalk, escape
+    public string aiMode;
     private bool shouldRecalculateTarget = true;
     private LayerMask raycastFilter = 0b1100000000;
 
@@ -16,6 +17,12 @@ public class MonsterAI : MonoBehaviour
     public LayerMask playerLayer;
     public GameObject heartPrefab;
     public GameObject spiderParticles;
+
+    public AudioSource audioPlayer;
+
+    public AudioClip[] spiderWalk;
+    public AudioClip spiderAttack;
+    public AudioClip[] spiderHurt;
 
     public Animator animator;
 
@@ -36,6 +43,16 @@ public class MonsterAI : MonoBehaviour
     private float fleeMultiplier = 1.5f;
     public float memoryDuration = 5f;
 
+    IEnumerator SpiderSounds()
+    {
+        while(true)
+        {
+            float delay = Random.Range(5f, 90f);
+            yield return new WaitForSeconds(delay);
+            audioPlayer.PlayOneShot(spiderWalk[Random.Range(0, spiderWalk.Length)]);
+        }
+    }
+
     void Start()
     {
         playerTransform = GameObject.Find("Player").transform;
@@ -44,6 +61,7 @@ public class MonsterAI : MonoBehaviour
         attackSpeed = 2*idleSpeed;
 
         aggroChance = Random.Range(minAggroChance, maxAggroChance); // using negative min will add pacifist spiders
+        StartCoroutine(SpiderSounds());
     }
 
     // Update is called once per frame
@@ -85,6 +103,7 @@ public class MonsterAI : MonoBehaviour
         monsterHealth -= damageTaken;
 
         animator.SetTrigger("hurt_trigger");
+        audioPlayer.PlayOneShot(spiderHurt[Random.Range(0, spiderHurt.Length)]);
         aiMode = "stalk";
 
         if(monsterHealth == 1)
@@ -208,6 +227,7 @@ public class MonsterAI : MonoBehaviour
             if(Random.Range(0f, 100f) < aggroChance)
             {
                 aiMode = "hunt";
+                audioPlayer.PlayOneShot(spiderAttack);
             }
         }
         stalkTimerActive = false;
@@ -220,7 +240,6 @@ public class MonsterAI : MonoBehaviour
 
         if(Physics.Raycast(transform.position, distance, out hit, detectionRange, raycastFilter))
         {
-            Debug.DrawRay(transform.position, distance, Color.green, .1f);
             monsterSeesPlayer = hit.collider.gameObject.layer == 9;
         }
         else

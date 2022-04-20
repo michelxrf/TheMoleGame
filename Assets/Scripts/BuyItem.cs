@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class BuyItem : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class BuyItem : MonoBehaviour
 
     public Image soldMark;
     public Button button;
+    public AudioClip buySound;
+    public AudioClip dontBuySound;
+    public AudioSource audioPlayer;
+
     public int id = -1;
 
     private bool paid = false;
@@ -92,10 +97,6 @@ public class BuyItem : MonoBehaviour
                         GameData.pickaxe += Mathf.FloorToInt(stat_increase);
                         break;
 
-                    case "skin":
-                        //TODO: unlock skin
-                        break;
-
                     default:
                         Debug.LogError("Stat type not recognized.");
                         break;
@@ -111,21 +112,17 @@ public class BuyItem : MonoBehaviour
                         GameData.upgrades_bought[id] = true;
                         break;
                     
-                    case "skin":
-                        GameData.skins_bought[id] = true;
-                        break;
-                    
                     default:
                         Debug.LogError("Item type not recognized.");
                         break;
                 }
 
+                audioPlayer.PlayOneShot(buySound);
                 button.interactable = false;
             }
             else
             {
-                Debug.Log("not enough money");
-                //TODO: not enough money
+                audioPlayer.PlayOneShot(dontBuySound);
             }
     }
 
@@ -142,12 +139,7 @@ public class BuyItem : MonoBehaviour
                         button.interactable = !GameData.upgrades_bought[id];
                         soldMark.enabled = GameData.upgrades_bought[id];
                         break;
-                    
-                    case "skin":
-                        button.interactable = !GameData.skins_bought[id];
-                        soldMark.enabled = GameData.skins_bought[id];
-                        break;
-                    
+            
                     default:
                         Debug.LogError("Couldn't check item availabilty. Check if id is correctly set.");
                         break;
@@ -186,10 +178,6 @@ public class BuyItem : MonoBehaviour
 
                     case "lamp":
                         GameData.lamp += Mathf.FloorToInt(stat_increase);
-                        break;
-
-                    case "skin":
-                        //TODO: unlock skin
                         break;
 
                     default:

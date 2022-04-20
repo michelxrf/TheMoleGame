@@ -45,10 +45,6 @@ public static class SaveSystem
         {
             saveFile.upgrades_bought[i] = GameData.upgrades_bought[i];
         }
-        for (int i = 0; i < GameData.skins_bought.Length; i++)
-        {
-            saveFile.skins_bought[i] = GameData.skins_bought[i];
-        }
         //////////////////////////////
 
         BinaryFormatter formatter = new BinaryFormatter();
@@ -109,10 +105,6 @@ public static class SaveSystem
                 for (int i = 0; i < saveFile.upgrades_bought.Length; i++)
                 {
                     GameData.upgrades_bought[i] = saveFile.upgrades_bought[i];
-                }
-                for (int i = 0; i < saveFile.skins_bought.Length; i++)
-                {
-                    GameData.skins_bought[i] = saveFile.skins_bought[i];
                 }
                 /////////////////////////////////
 

@@ -54,15 +54,12 @@ public class GameData : MonoBehaviour
             - [ ]  Speed 2
             - [ ]  Lamp
             */
-    public static bool[] skins_bought = new bool[2];
-            /*
-            - [ ]  Skin 1
-            - [ ]  Skin 2
-            */
 
     public static bool gameIsPaused = false;
     public static int monsterPopulation;
     public static int maxMonsterPopulation;
 
     public static bool leaveMines = false;
+
+    public static float ambienceSoundTime = 0f;
 }

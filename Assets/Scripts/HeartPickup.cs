@@ -11,11 +11,7 @@ public class HeartPickup : MonoBehaviour
     {
         if(other.gameObject.name == "Player")
         {
-            if(GameData.health < GameData.maxHealth)
-            {
-                GameData.health += amount;
-            }
-            
+            other.GetComponent<PlayerController>().PickupHeart(amount);            
             Destroy(gameObject);
         }
     }

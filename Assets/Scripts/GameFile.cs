@@ -55,9 +55,4 @@ public class GameFile
             - [ ]  Speed 2
             - [ ]  Lamp
             */
-    public bool[] skins_bought = new bool[2];
-            /*
-            - [ ]  Skin 1
-            - [ ]  Skin 2
-            */
 }

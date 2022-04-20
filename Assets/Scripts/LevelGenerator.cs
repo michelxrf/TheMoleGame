@@ -317,7 +317,6 @@ public class LevelGenerator : MonoBehaviour
 				badExitPointBreak--;
 				if(badExitPointBreak < 0)
 				{
-					Debug.Log("Bad exit point, replacing it.");
 					break;
 				}
 			} while (entryExitDistance < fullMapDistance * .3f || (Mathf.Abs(entryPointX - exitPointX) < 2 && Mathf.Abs(entryPointZ - exitPointZ) < 2));

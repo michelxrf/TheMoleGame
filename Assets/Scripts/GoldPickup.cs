@@ -11,24 +11,7 @@ public class GoldPickup : MonoBehaviour
     {
         if(other.gameObject.name == "Player")
         {
-            switch (type)
-            {
-                case "silver":
-                    GameData.silver += 1;
-                    break;
-                
-                case "gold":
-                    GameData.gold += 1;
-                    break;
-                
-                case "emerald":
-                    GameData.emerald += 1;
-                    break;
-
-                default:
-                    Debug.LogError("Valuable type not recognized.");
-                    break;
-            }
+            other.GetComponent<PlayerController>().PickupCoin(type);
             Destroy(gameObject);
         }
     }

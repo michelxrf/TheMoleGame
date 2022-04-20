@@ -13,6 +13,7 @@ public class TittleScreen : MonoBehaviour
     public GameObject confirmationWarning;
     public GameObject confirmationMark;
     public Button confirmationButton;
+    public AudioSource confirmationSound;
 
     private void Start()
     {
@@ -79,10 +80,6 @@ public class TittleScreen : MonoBehaviour
         {
             GameData.upgrades_bought[i] = false;
         }
-        for(int i = 0; i < GameData.skins_bought.Length; i++)
-        {
-            GameData.skins_bought[i] = false;
-        }
 
         SaveSystem.SaveGame();
 
@@ -91,6 +88,7 @@ public class TittleScreen : MonoBehaviour
 
         highestLevel.text = "highest level: " + GameData.highestLevel.ToString();
         resumeText.text = "Resume - Start New Run";
+        confirmationSound.Play();
     }
 
     public void ShowConfirmation()
