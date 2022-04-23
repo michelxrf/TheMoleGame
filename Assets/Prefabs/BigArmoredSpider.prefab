@@ -198,8 +198,8 @@ MonoBehaviour:
   attackRange: 0.75
   monsterDamage: 2
   spawnHeartChance: 30
-  idleSpeed: 1.25
-  detectionRange: 5
+  idleSpeed: 0.8
+  detectionRange: 6
   minAggroChance: 0
   maxAggroChance: 75
   memoryDuration: 5

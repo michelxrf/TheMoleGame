@@ -7,7 +7,6 @@ using System;
 [Serializable]
 public class GameFile
 {
-    public int highestLevel;
     public int lastLevel;
     public float boxChance;
     

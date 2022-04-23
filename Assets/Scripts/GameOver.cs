@@ -10,6 +10,11 @@ public class GameOver : MonoBehaviour
     public Text goldScore;
     public Text emeraldScore;
     public Text killedMonsters;
+    public Text totalScoreText;
+
+    private int totalScore;
+
+    public Leaderboard leaderboard;
 
     private void Start()
     {
@@ -19,6 +24,10 @@ public class GameOver : MonoBehaviour
         goldScore.text = GameData.gameOverScoreGold.ToString() + " x";
         emeraldScore.text = GameData.gameOverScoreEmerald.ToString() + " x";
         killedMonsters.text = GameData.killedMonsters.ToString() + " x";
+
+        totalScore = GameData.gameOverScoreSilver + 2 * GameData.gameOverScoreGold + 3 * GameData.gameOverScoreEmerald;        
+        totalScoreText.text = "Your Score: " + totalScore.ToString();
+        StartCoroutine(leaderboard.SubmitScoreRoutine(totalScore));
 
         GameData.level = 0;
 

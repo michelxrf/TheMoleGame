@@ -21,7 +21,7 @@ public class BoxController : MonoBehaviour
 
     private void Start()
     {
-        tip = GameObject.Find("TipText").GetComponent<Text>();
+        tip = GameObject.Find("BoxTip").GetComponent<Text>();
     }
 
     void Update()

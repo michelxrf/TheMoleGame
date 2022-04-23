@@ -29,7 +29,8 @@ public class PlayerController : MonoBehaviour
 
     public Animator animator;
 
-    public float speed = 3f;
+    private float speed;
+    public float baseSpeed = 1f;
 
     private bool playerIsAlive = true;
 
@@ -51,9 +52,9 @@ public class PlayerController : MonoBehaviour
         SaveSystem.SaveGame();
         Cursor.visible = false;
 
-        speed = 1 + 0.2f * GameData.speed;
+        speed = baseSpeed + 0.2f * GameData.speed;
 
-        animator.SetFloat("strike_speed_factor", 1 + GameData.speed * 0.015f);
+        animator.SetFloat("strike_speed_factor", 1 + GameData.speed * 0.05f);
 
         switch (GameData.lamp)
         {

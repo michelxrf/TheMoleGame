@@ -10,6 +10,11 @@ public class RetreatScreen : MonoBehaviour
     public Text goldScore;
     public Text emeraldScore;
     public Text killedMonsters;
+    public Text totalScoreText;
+
+    private int totalScore;
+
+    public Leaderboard leaderboard;
 
     private void Start()
     {
@@ -18,6 +23,10 @@ public class RetreatScreen : MonoBehaviour
         GameData.gameOverScoreSilver += GameData.silver;
         GameData.gameOverScoreGold += GameData.gold;
         GameData.gameOverScoreEmerald += GameData.emerald;
+
+        totalScore = GameData.gameOverScoreSilver + 2 * GameData.gameOverScoreGold + 3 * GameData.gameOverScoreEmerald;        
+        totalScoreText.text = "Your Score: " + totalScore.ToString();
+        StartCoroutine(leaderboard.SubmitScoreRoutine(totalScore));
 
         silverScore.text = GameData.gameOverScoreSilver.ToString() + " x";
         goldScore.text = GameData.gameOverScoreGold.ToString() + " x";

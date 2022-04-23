@@ -157,7 +157,16 @@ public class MonsterAI : MonoBehaviour
         {
             case "hunt":
                 StopCoroutine(RecalculateTargetTimer());
-                targetPosition = playerTransform.position;
+
+                if(monsterSeesPlayer)
+                {
+                    targetPosition = playerTransform.position;
+                }
+                else
+                {
+                    targetPosition = lastPlayerLocation;
+                }
+                
                 navMesh.updateRotation = !monsterSeesPlayer;
                 navMesh.speed = attackSpeed;
                 transform.LookAt(lastPlayerLocation);

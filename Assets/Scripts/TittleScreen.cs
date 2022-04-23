@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class TittleScreen : MonoBehaviour
 {
-    public Text highestLevel;
     public Text resumeText;
     public Button resumeButton;
     public GameObject resetProgressButton;
@@ -14,12 +13,16 @@ public class TittleScreen : MonoBehaviour
     public GameObject confirmationMark;
     public Button confirmationButton;
     public AudioSource confirmationSound;
+    public AudioSource themeSong;
+
+    public GameObject prefacePanel;
+
+    public float menuDelay;
 
     private void Start()
     {
+        StartCoroutine(TimeDown());
         SaveSystem.LoadGame();
-
-        highestLevel.text = "highest level: " + GameData.highestLevel.ToString();
 
         Cursor.visible = true;
 
@@ -48,7 +51,6 @@ public class TittleScreen : MonoBehaviour
     public void ResetGame()
     {
         GameData.level = 0;
-        GameData.highestLevel = 0;
         GameData.boxChance = -50f;
 
         GameData.silver = 0;
@@ -86,7 +88,6 @@ public class TittleScreen : MonoBehaviour
         confirmationMark.SetActive(true);
         confirmationButton.interactable = false;
 
-        highestLevel.text = "highest level: " + GameData.highestLevel.ToString();
         resumeText.text = "Resume - Start New Run";
         confirmationSound.Play();
     }
@@ -99,5 +100,12 @@ public class TittleScreen : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    IEnumerator TimeDown()
+    {
+        yield return new WaitForSeconds(menuDelay);
+        prefacePanel.SetActive(false);
+        themeSong.Play();
     }
 }

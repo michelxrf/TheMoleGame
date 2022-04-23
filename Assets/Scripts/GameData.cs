@@ -26,7 +26,7 @@ public class GameData : MonoBehaviour
     public static int health = 3;
     public static int maxHealth = 3;
     public static int armor = 0;
-    public static float speed = 3;
+    public static float speed = 1;
     public static int damage = 1;
     public static int pickaxe = 1;
     public static int lamp = 1;

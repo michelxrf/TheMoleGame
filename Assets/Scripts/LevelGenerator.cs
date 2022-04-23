@@ -26,8 +26,8 @@ public class LevelGenerator : MonoBehaviour
 {
 	public NavMeshSurface navMesh;
 
-	public const int MinSize1 = 3;
-	public const int MinSize2 = 10;
+	public const int MinSize1 = 5;
+	public const int MinSize2 = 12;
 
 	public GameObject floorPrefab;
 	public GameObject wallPrefab;
@@ -41,6 +41,7 @@ public class LevelGenerator : MonoBehaviour
 	private float bigSpiderChance, armoredSpiderChance, bigArmoredSpiderChance;
 
 	public GameObject playerController;
+	public Light globalLight;
 
 	public GameObject floorParent;
 	public GameObject wallsParent;
@@ -59,8 +60,10 @@ public class LevelGenerator : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		GameData.maxMonsterPopulation = Mathf.FloorToInt(Mathf.Clamp(0.5f * GameData.level - 2, 0, 20));
+		GameData.maxMonsterPopulation = Mathf.FloorToInt(Mathf.Clamp(0.5f * GameData.level - 1, 0, 20));
 		CalculateMosnterChances();
+
+		SetGlobalLight();
 
 		//define size based on level
 		// initialize map 2D array
@@ -150,12 +153,12 @@ public class LevelGenerator : MonoBehaviour
 	{
 		float treasureChance = Mathf.Max(0f, 0.25f * GameData.level + 7.5f);
 		float silverChance = Mathf.Max(0f, -1.38f * GameData.level + 101.38f);
-		float goldChance = Mathf.Max(0f, 2.5f * GameData.level - 25f);
-		float emeraldChance = Mathf.Max(0f, GameData.level - 20f);
+		float goldChance = Mathf.Max(0f, 2.5f * GameData.level - 15f);
+		float emeraldChance = Mathf.Max(0f, GameData.level - 15f);
 		float summedChances = silverChance + goldChance + emeraldChance;
 
-		mazeSizeX = Mathf.Min(GameData.level + MinSize1, 30);
-		mazeSizeZ = Mathf.Min(Random.Range(GameData.level + MinSize2, Mathf.FloorToInt(GameData.level * 1.5f) + MinSize2), 50);
+		mazeSizeX = Mathf.Min(GameData.level + MinSize1, 40);
+		mazeSizeZ = Mathf.Min(Random.Range(GameData.level + MinSize2, Mathf.FloorToInt(GameData.level * 1.5f) + MinSize2), 60);
 
 		roomSizeFactor = Random.Range(1.0f, 3.0f);
 
@@ -442,5 +445,10 @@ public class LevelGenerator : MonoBehaviour
 		bigArmoredSpiderChance = ((GameData.level - 25f)/30f) * 100f;
 		if(bigArmoredSpiderChance > 10f)//had to use IF, Mathf.Max was giving weird results
 		bigArmoredSpiderChance = 10f;
+	}
+
+	private void SetGlobalLight()
+	{
+		globalLight.intensity = Mathf.Max(0f, 0.3f - GameData.level/50f);
 	}
 }

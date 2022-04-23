@@ -12,7 +12,6 @@ public static class SaveSystem
         GameFile saveFile = new GameFile();
 
         // variables getting stored //
-        saveFile.highestLevel = GameData.highestLevel;
         saveFile.lastLevel = GameData.level;
         saveFile.boxChance = GameData.boxChance;
         
@@ -54,6 +53,7 @@ public static class SaveSystem
 
         formatter.Serialize(stream, saveFile);
         stream.Close();
+        Debug.Log("Save Game");
     }
 
     public static bool LoadGame()
@@ -74,7 +74,6 @@ public static class SaveSystem
 
                 // variables getting recovered //
                 GameData.level = saveFile.lastLevel;
-                GameData.highestLevel = saveFile.highestLevel;
                 GameData.boxChance = saveFile.boxChance;
                 
                 GameData.silver = saveFile.silver;
@@ -108,6 +107,7 @@ public static class SaveSystem
                 }
                 /////////////////////////////////
 
+                Debug.Log("Load Game");
                 return true;
             }
             catch (System.Exception)
