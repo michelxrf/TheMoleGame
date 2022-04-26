@@ -1,0 +1,9 @@
+This game was made by Michel Redmer da Fonseca as final project for CS50 Introduction to Game Development.
+
+You can share this game with anyone as long as you do that for free.
+
+All assets in the game are either made by me or they're CC0, except for the LootLocker's leaderboard stuff. If you want to use any of the 3d models or 2d art for your own project, feel free to do so.
+
+This game is available for free at https://michelxrf.itch.io/toco-the-miner
+
+All the code and assets are available at https://github.com/michelxrf/TheMoleGame

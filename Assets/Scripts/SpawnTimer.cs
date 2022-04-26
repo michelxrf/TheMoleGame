@@ -58,7 +58,7 @@ public class SpawnTimer : MonoBehaviour
             {
                 break;
             }
-            else if(distance > 8f)
+            else if(distance > 6f)
             {
                 transform.GetChild(i).GetComponent<MonsterSpawner>().ForcedSpawn();
             }             

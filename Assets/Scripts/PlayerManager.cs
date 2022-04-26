@@ -17,6 +17,7 @@ public class PlayerManager : MonoBehaviour
     IEnumerator SetupLeaderboard()
     {
         yield return LoginRoutine();
+        yield return leaderboard.GetThisPlayerRank();
         yield return leaderboard.FetchTopHighscoresRoutine();
     }
 
@@ -25,13 +26,9 @@ public class PlayerManager : MonoBehaviour
         if(playerNameInputField.text != "")
         {
             LootLockerSDKManager.SetPlayerName(playerNameInputField.text, (response) => {
-            if(response.success)
+            if(!response.success)
             {
-                Debug.Log("player name set");
-            }
-            else
-            {
-                Debug.Log("failed to set player name: " + response.Error);
+                Debug.LogError("failed to set player name: " + response.Error);
             }
         });
         }
@@ -44,13 +41,12 @@ public class PlayerManager : MonoBehaviour
         {
             if(response.success)
             {
-                Debug.Log("Player has logged in.");
                 PlayerPrefs.SetString("PlayerID", response.player_id.ToString());
                 done = true;
             }
             else
             {
-                Debug.Log("failed to log in");
+                Debug.LogError("failed to log in");
                 done = true;
             }
         });
