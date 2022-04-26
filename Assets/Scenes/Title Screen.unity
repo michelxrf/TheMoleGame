@@ -1857,7 +1857,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leaderboard: {fileID: 1194727739}
-  playerNameInputField: {fileID: 0}
+  playerNameInputField: {fileID: 1680414216}
 --- !u!114 &1194727739
 MonoBehaviour:
   m_ObjectHideFlags: 0

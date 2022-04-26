@@ -23,11 +23,14 @@ public class PlayerManager : MonoBehaviour
 
     public void SetPlayerName()
     {
+        Debug.Log("Entered Method");
         if(playerNameInputField.text != "")
         {
+            Debug.Log("Entered If");
             LootLockerSDKManager.SetPlayerName(playerNameInputField.text, (response) => {
             if(!response.success)
             {
+                Debug.Log("response not success");
                 Debug.LogError("failed to set player name: " + response.Error);
             }
         });
